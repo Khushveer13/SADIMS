@@ -65,10 +65,10 @@ Before launching SADIMS, ensure you have the following installed on your machine
 ### 🔌 Database Setup
 1.  Ensure your **PostgreSQL** is running (Port 2178) and 'sadims_db' is created.
 2.  Create a blank database named **`sadims_db`**.
-3.  The application uses local PostgreSQL credentials by default:
-    *   **Username:** `postgres`
-    *   **Password:** `Khushveer@2178`
-    *   *(Note: You can update these credentials in [application.properties](file:///c:/Users/Khushveer/AntiGravity/SADIMS/backend/src/main/resources/application.properties) if your database has a different configuration.)*
+3.  The application uses local PostgreSQL credentials:
+    *   **Username:** `your_postgres_username`
+    *   **Password:** `your_postgres_password`
+    *   *(Note: Set your actual username and password in [application.properties](file:///c:/Users/Khushveer/AntiGravity/SADIMS/backend/src/main/resources/application.properties) before running the application.)*
 4.  *Note: With `ddl-auto=update`, Spring Boot will automatically generate the required database tables and seed default admin credentials on the first run!*
 
 ### ⚡ Quick Start (Windows)
