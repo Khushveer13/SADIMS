@@ -54,17 +54,6 @@ SADIMS utilizes a distributed microservices-style architecture to ensure perform
 
 ---
 
-## 🔑 Default Login Credentials
-
-SADIMS is seeded with default administrative and test farmer credentials ready for immediate exploration:
-
-| Role | Username / Mobile Number | Password | Name |
-| :--- | :--- | :--- | :--- |
-| **👑 ADMIN** | `7425915809` | `admin123` | Khushveer Dara |
-| **🌾 FARMER** | `7014869255` | `khushi123` | Khushveer |
-
----
-
 ## ⚙️ Local Installation & Running Guide
 
 ### 📋 Prerequisites
