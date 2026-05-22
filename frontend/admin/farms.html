@@ -53,22 +53,27 @@
             <header class="top-header">
                 <div class="page-title">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
-                                style="width: 18px;"></i></a>
-                        <h2>Farm Holdings</h2>
+                        <a href="dashboard.html" style="color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); transition: all 0.3s ease;"><i data-lucide="arrow-left"
+                                style="width: 16px;"></i></a>
+                        <h2 style="font-size: 1.15rem; margin-left: 0.5rem;">Farm Holdings</h2>
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">Global Land Registry</span>
+                    <span style="font-size: 0.8rem; color: var(--neon-blue); font-weight: 600; filter: drop-shadow(0 0 6px var(--neon-blue-glow));">GLOBAL LAND REGISTRY</span>
                 </div>
             </header>
 
-            <div style="padding: 2rem;" class="p-4">
+            <div style="padding: 2.5rem;" class="p-4">
                 <div class="sd-card">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 class="heading-font" style="font-size: 1.25rem;">Agricultural Portfolio</h3>
-                        <div class="badge" style="background: var(--accent-soft); color: var(--primary);"
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue);">
+                                <i data-lucide="map" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Agricultural Portfolio</h3>
+                        </div>
+                        <div class="badge" style="background: rgba(59, 130, 246, 0.12); color: var(--neon-blue); border: 1px solid rgba(59, 130, 246, 0.2);"
                             id="farmCount">0 Fields</div>
                     </div>
 

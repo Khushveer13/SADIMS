@@ -55,16 +55,16 @@
                     <h2>Admin Strategic Console</h2>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 0.9rem; font-weight: 500;">Auth: <span
+                    <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-main);">Auth: <span
                             id="adminName">Administrator</span></span>
                     <div
-                        style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--primary); border: 2px solid var(--accent);">
+                        style="width: 40px; height: 40px; border-radius: 50%; background: rgba(16, 185, 129, 0.08); display: flex; align-items: center; justify-content: center; color: var(--neon-green); border: 2px solid var(--neon-green); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);">
                         <i data-lucide="user-cog"></i>
                     </div>
                 </div>
             </header>
 
-            <div class="dashboard-grid">
+            <div class="dashboard-grid" style="padding: 2.5rem 2.5rem 1.5rem 2.5rem;">
                 <div class="sd-card stat-card">
                     <div class="stat-icon"><i data-lucide="users"></i></div>
                     <div class="stat-info">
@@ -73,57 +73,64 @@
                     </div>
                 </div>
                 <div class="sd-card stat-card">
-                    <div class="stat-icon" style="background: rgba(221, 161, 94, 0.15); color: #DDA15E;"><i
-                            data-lucide="scan"></i></div>
+                    <div class="stat-icon" style="color: var(--neon-teal) !important;"><i data-lucide="scan"></i></div>
                     <div class="stat-info">
                         <div class="label">Total AI Scans</div>
-                        <div class="value" id="totalScans">0</div>
+                        <div class="value" id="totalScans" style="color: var(--text-main);">0</div>
                     </div>
                 </div>
                 <div class="sd-card stat-card">
-                    <div class="stat-icon" style="background: rgba(116, 198, 157, 0.15); color: #2D6A4F;"><i
-                            data-lucide="cloud-rain"></i></div>
+                    <div class="stat-icon" style="color: var(--neon-blue) !important;"><i data-lucide="cloud-rain"></i></div>
                     <div class="stat-info">
                         <div class="label">Weather Logs</div>
-                        <div class="value" id="totalLogs">0</div>
+                        <div class="value" id="totalLogs" style="color: var(--text-main);">0</div>
                     </div>
                 </div>
             </div>
 
-            <div style="padding: 0 2rem 2rem 2rem;" class="p-4">
-                <h3 class="heading-font mb-4" style="font-size: 1.25rem;">Command Centers</h3>
-                <div class="dashboard-grid" style="padding: 0; margin-bottom: 2rem;">
-                    <div class="sd-card" style="cursor: pointer;" onclick="window.location.href='farmers.html'">
+            <div style="padding: 0 2.5rem 2.5rem 2.5rem;" class="p-4">
+                <h3 class="heading-font mb-4" style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.25rem;">Command Centers</h3>
+                
+                <div class="dashboard-grid" style="padding: 0; margin-bottom: 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.75rem;">
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='farmers.html'">
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i data-lucide="user-check" style="color: var(--primary);"></i>
-                            <h4 class="heading-font">User Management</h4>
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green); filter: drop-shadow(0 0 6px var(--neon-green-glow));">
+                                <i data-lucide="user-check" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">User Management</h4>
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Manage farmer accounts and field
-                            permissions.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Manage farmer accounts and field permissions.</p>
                     </div>
-                    <div class="sd-card" style="cursor: pointer;" onclick="window.location.href='farms.html'">
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='farms.html'">
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i data-lucide="map-pin" style="color: var(--primary);"></i>
-                            <h4 class="heading-font">Farm Monitoring</h4>
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue); filter: drop-shadow(0 0 6px var(--neon-blue-glow));">
+                                <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">Farm Monitoring</h4>
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time view of crop distributions
-                            and soil analytics.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time view of crop distributions and soil analytics.</p>
                     </div>
-                    <div class="sd-card" style="cursor: pointer;" onclick="window.location.href='reports.html'">
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='reports.html'">
                         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i data-lucide="brain-circuit" style="color: var(--primary);"></i>
-                            <h4 class="heading-font">AI Intelligence</h4>
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-teal); filter: drop-shadow(0 0 6px var(--neon-teal-glow));">
+                                <i data-lucide="brain-circuit" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">AI Intelligence</h4>
                         </div>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Overview of disease predictions and ML
-                            accuracy trends.</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Overview of disease predictions and ML accuracy trends.</p>
                     </div>
                 </div>
 
                 <div class="sd-card">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 class="heading-font" style="font-size: 1.25rem;">Global Agricultural Monitor</h3>
-                        <div class="badge badge-success">Live System</div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                                <i data-lucide="globe" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Global Agricultural Monitor</h3>
+                        </div>
+                        <span class="badge badge-success"><i data-lucide="shield-check" style="width: 12px; margin-right: 4px;"></i> Live System</span>
                     </div>
 
                     <div class="table-container">
@@ -139,8 +146,7 @@
                             </thead>
                             <tbody id="allFarmsTable">
                                 <tr>
-                                    <td colspan="5" class="text-center p-4" style="color: var(--text-muted);">Syncing
-                                        registry...</td>
+                                    <td colspan="5" class="text-center p-4" style="color: var(--text-muted);">Syncing registry...</td>
                                 </tr>
                             </tbody>
                         </table>

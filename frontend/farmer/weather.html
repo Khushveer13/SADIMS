@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SADIMS - Weather Logic</title>
+    <title>SADIMS - Weather Intelligence</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -63,16 +63,207 @@
                     <div id="liveTime"
                         style="font-size: 0.8rem; color: var(--text-muted); padding-right: 15px; border-right: 1px solid var(--border-color);">
                         --:--</div>
-                    <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">ACTIVE MONITORING</span>
+                    <span style="font-size: 0.8rem; color: var(--neon-blue); font-weight: 600; filter: drop-shadow(0 0 6px var(--neon-blue-glow));">LIVE WEATHER LAB</span>
                 </div>
             </header>
 
-            <div style="padding: 2rem;" class="p-4">
-                <!-- Log Entry Card -->
-                <div class="sd-card mb-4">
-                    <h3 class="heading-font mb-4" style="font-size: 1.25rem;">Daily Climate Entry</h3>
+            <div style="padding: 2.5rem;" class="p-4">
+                <!-- Weather Analytics Dashboard Grid (Mockup 1) -->
+                <div class="dashboard-grid" style="padding: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.75rem;">
+                    
+                    <!-- Card 1: Current Climate Status -->
+                    <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3 class="heading-font" style="font-size: 1.1rem; color: var(--text-main);">Current Climate</h3>
+                            <span class="badge" style="background: rgba(59, 130, 246, 0.08); color: var(--neon-blue); border-color: rgba(59, 130, 246, 0.2);"><i data-lucide="wind" style="width: 12px; margin-right: 4px;"></i> Real-Time</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem; margin: 1rem 0;">
+                            <div style="width: 70px; height: 70px; border-radius: var(--radius-md); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue); filter: drop-shadow(0 0 10px var(--neon-blue-glow));">
+                                <i data-lucide="cloud-lightning" style="width: 40px; height: 40px;"></i>
+                            </div>
+                            <div>
+                                <div id="liveTempDisplay" class="heading-font" style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); line-height: 1.1;">28.4°C</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Scattered Showers Today</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                            <div>
+                                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Humidity</span>
+                                <div id="liveHumidDisplay" style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">62.5%</div>
+                            </div>
+                            <div>
+                                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;">Rainfall</span>
+                                <div id="liveRainDisplay" style="font-size: 1.25rem; font-weight: 700; color: var(--neon-blue);">8.2 mm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Soil Humidity Wavy Visualization -->
+                    <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h3 class="heading-font" style="font-size: 1.1rem; color: var(--text-main);">Live Soil Hydration</h3>
+                            <span id="hydrationStatusBadge" class="badge" style="background: rgba(16, 185, 129, 0.08); color: var(--neon-green); border-color: rgba(16, 185, 129, 0.2);"><i data-lucide="droplet" style="width: 12px; margin-right: 4px;"></i> OPTIMAL</span>
+                        </div>
+                        <div style="text-align: center; margin-top: 0.5rem;">
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">Avg. Moisture Value</span>
+                            <div id="liveSoilMoistureVal" class="heading-font" style="font-size: 2.25rem; font-weight: 800; color: var(--neon-blue); line-height: 1;">68%</div>
+                        </div>
+                        <div class="wave-container">
+                            <div class="wave-grid"></div>
+                            <svg class="wave-svg" viewBox="0 0 300 80" preserveAspectRatio="none">
+                                <path class="wave-path" d="M0,40 Q25,20 50,40 T100,40 T150,40 T200,40 T250,40 T300,40 L300,100 L0,100 Z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Weekly Rainfall Forecast -->
+                    <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3 class="heading-font" style="font-size: 1.1rem; color: var(--text-main);">Precipitation Forecast</h3>
+                            <span class="badge" style="background: rgba(245, 158, 11, 0.08); color: var(--neon-amber); border-color: rgba(245, 158, 11, 0.2);"><i data-lucide="cloud-rain" style="width: 12px; margin-right: 4px;"></i> Weekly</span>
+                        </div>
+                        <div class="bar-chart-container" style="height: 130px; margin-top: 0;">
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 20%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Mon</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 65%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Tue</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 80%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Wed</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 10%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Thu</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 45%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Fri</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 95%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Sat</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track" style="height: 90px; width: 12px;">
+                                    <div class="bar-fill" style="height: 30%; background: linear-gradient(180deg, var(--neon-blue) 0%, rgba(59, 130, 246, 0.2) 100%);"></div>
+                                </div>
+                                <div class="bar-label" style="font-size: 0.6rem;">Sun</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Secondary Intelligence Row (Hydration Recoms & Irrigation Trigger) -->
+                <div class="dashboard-grid" style="padding: 0 0 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.75rem;">
+                    
+                    <!-- Hydration Recommendations -->
+                    <div class="sd-card">
+                        <h3 class="heading-font" style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 1.25rem;"><i data-lucide="sparkles" style="width: 18px; color: var(--neon-teal); vertical-align: middle; margin-right: 8px;"></i>Crop Hydration Optimization</h3>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                            <!-- Crop 1 -->
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                                        <i data-lucide="corn" style="width: 16px;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">Sweet Corn Block</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">Current soil saturation: 68%</div>
+                                    </div>
+                                </div>
+                                <span class="badge" style="background: rgba(16, 185, 129, 0.12); color: var(--neon-green); border-color: rgba(16, 185, 129, 0.2);">Optimal</span>
+                            </div>
+
+                            <!-- Crop 2 -->
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-amber);">
+                                        <i data-lucide="wheat" style="width: 16px;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">Winter Wheat Block</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">Current soil saturation: 48%</div>
+                                    </div>
+                                </div>
+                                <span class="badge" style="background: rgba(245, 158, 11, 0.12); color: var(--neon-amber); border-color: rgba(245, 158, 11, 0.2);">Caution</span>
+                            </div>
+
+                            <!-- Crop 3 -->
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 6px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-teal);">
+                                        <i data-lucide="flower2" style="width: 16px;"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-main);">Soybean Field</div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">Current soil saturation: 75%</div>
+                                    </div>
+                                </div>
+                                <span class="badge" style="background: rgba(6, 182, 212, 0.12); color: var(--neon-teal); border-color: rgba(6, 182, 212, 0.2);">Optimal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Irrigation Trigger & Sensor Parameters -->
+                    <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <h3 class="heading-font" style="font-size: 1.15rem; color: var(--text-main); margin-bottom: 1rem;"><i data-lucide="droplet-off" style="width: 18px; color: var(--neon-blue); vertical-align: middle; margin-right: 8px;"></i>Smart Irrigation Controls</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Automated Trigger</div>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--neon-green); display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--neon-green); display: inline-block;"></span> Active
+                                </span>
+                                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">Runs when Humidity &lt; 50%</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); border-radius: var(--radius-sm); text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Sensor Network</div>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--neon-teal); display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                    <i data-lucide="wifi" style="width: 12px;"></i> 98% Online
+                                </span>
+                                <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px;">12 nodes active in field</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1rem; padding: 0.8rem; background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-main);">Manual Override Valve</div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted);">Forces farm sprinkler system ON for 15m</div>
+                            </div>
+                            <button class="sd-btn sd-btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.75rem; background: var(--neon-blue); border-color: var(--neon-blue); color: #fff;" onclick="alert('Manual irrigation trigger initiated!')">Trigger System</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Climate Entry Card -->
+                <div class="sd-card mb-4" style="margin-bottom: 1.75rem;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem;">
+                        <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue);">
+                            <i data-lucide="plus-circle" style="width: 16px;"></i>
+                        </div>
+                        <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Daily Climate Entry</h3>
+                    </div>
+                    
                     <form id="weatherForm"
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem;">
                         <div class="form-group" style="margin-bottom: 0;">
                             <label class="form-label">Date of Reading</label>
                             <input type="date" id="date" class="sd-input" required>
@@ -90,8 +281,9 @@
                             <input type="number" step="0.1" id="rain" class="sd-input" placeholder="e.g. 12" required>
                         </div>
                         <div style="display: flex; align-items: flex-end;">
-                            <button type="submit" class="sd-btn sd-btn-primary" style="width: 100%;">Save
-                                Record</button>
+                            <button type="submit" class="sd-btn sd-btn-primary" style="width: 100%;">
+                                <i data-lucide="save" style="width: 16px;"></i> Save Record
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -100,12 +292,17 @@
                 <div class="sd-card">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 class="heading-font" style="font-size: 1.25rem;">Field Climate History</h3>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-teal);">
+                                <i data-lucide="history" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Field Climate History</h3>
+                        </div>
                         <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <div class="badge" style="background: rgba(116, 198, 157, 0.15); color: #2D6A4F;"
+                            <div class="badge" style="background: rgba(6, 182, 212, 0.12); color: var(--neon-teal); border: 1px solid rgba(6, 182, 212, 0.2);"
                                 id="recordCount">0 Records</div>
                             <button onclick="clearWeatherHistory()" class="sd-btn"
-                                style="color: var(--error); border-color: var(--error); background: transparent; font-size: 0.75rem; padding: 0.4rem 0.8rem;">
+                                style="color: var(--neon-red); border-color: var(--neon-red); background: transparent; font-size: 0.75rem; padding: 0.4rem 0.8rem; display: flex; align-items: center; gap: 4px;">
                                 <i data-lucide="trash-2" style="width: 14px;"></i> Clear All
                             </button>
                         </div>

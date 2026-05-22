@@ -20,14 +20,18 @@
         }
 
         .modal-content {
-            background-color: white;
+            background: rgba(17, 24, 39, 0.95) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             margin: 10% auto;
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: var(--radius-lg);
             width: 90%;
             max-width: 500px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--border-color) !important;
             position: relative;
+            color: var(--text-main) !important;
             animation: fadeIn 0.3s ease;
         }
 
@@ -38,10 +42,12 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-muted);
+            transition: color 0.3s ease;
         }
 
         .close-modal:hover {
             color: var(--primary);
+            text-shadow: 0 0 8px var(--neon-green-glow);
         }
     </style>
 </head>
@@ -111,8 +117,8 @@
                     <p class="mt-2"><strong>Target Users:</strong> Farmers seeking precision agriculture tools and
                         Administrators managing regional agricultural portfolios.</p>
                     <div class="mt-4 p-3"
-                        style="background: #f8fafc; border-radius: 8px; font-size: 0.8rem; border-left: 4px solid var(--accent);">
-                        <strong>Academic Project:</strong> This system is developed as an academic project for
+                        style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 0.8rem; border-left: 4px solid var(--accent); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                        <strong style="color: var(--neon-green);">Academic Project:</strong> This system is developed as an academic project for
                         demonstration purposes. AI predictions are simulated for research software modeling.
                     </div>
                 </div>

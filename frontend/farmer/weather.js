@@ -28,12 +28,17 @@ document.getElementById('weatherForm').addEventListener('submit', async (e) => {
 
         // Visual feedback
         const btn = e.target.querySelector('button');
-        const originalText = btn.textContent;
-        btn.textContent = 'Saved Successfully!';
-        btn.classList.add('badge-success');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check-circle" style="width: 16px;"></i> Saved Successfully!';
+        btn.style.background = 'var(--neon-green)';
+        btn.style.borderColor = 'var(--neon-green)';
+        btn.style.color = 'var(--bg-main)';
         setTimeout(() => {
-            btn.textContent = originalText;
-            btn.classList.remove('badge-success');
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+            if (window.lucide) lucide.createIcons();
         }, 2000);
 
     } catch (er) {
@@ -65,19 +70,78 @@ async function loadWeather() {
 
         if (records.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" class="text-center p-4">No historical climate records found for this field.</td></tr>';
+            // Default mock fallback values when empty
+            document.getElementById('liveTempDisplay').textContent = '28.4°C';
+            document.getElementById('liveHumidDisplay').textContent = '62.5%';
+            document.getElementById('liveRainDisplay').textContent = '8.2 mm';
+            document.getElementById('liveSoilMoistureVal').textContent = '68%';
+            
+            const badge = document.getElementById('hydrationStatusBadge');
+            badge.textContent = 'OPTIMAL';
+            badge.className = 'badge';
+            badge.style.background = 'rgba(16, 185, 129, 0.08)';
+            badge.style.color = 'var(--neon-green)';
+            badge.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+            
+            // Set input date to today by default
+            document.getElementById('date').value = new Date().toISOString().substring(0, 10);
             return;
         }
 
-        records.reverse().forEach(r => {
+        // The records array is usually returned chronologically by backend (e.g. oldest first).
+        // Let's copy it and reverse it to get latest first.
+        const sortedRecords = [...records].reverse();
+        
+        // Update live widgets with the latest record
+        const latest = sortedRecords[0];
+        document.getElementById('liveTempDisplay').textContent = `${latest.temperature.toFixed(1)}°C`;
+        document.getElementById('liveHumidDisplay').textContent = `${latest.humidity.toFixed(1)}%`;
+        document.getElementById('liveRainDisplay').textContent = `${latest.rainfall.toFixed(1)} mm`;
+        document.getElementById('liveSoilMoistureVal').textContent = `${latest.humidity.toFixed(0)}%`;
+
+        // Update wave height dynamically
+        const waveSvg = document.querySelector('.wave-svg');
+        if (waveSvg) {
+            // map humidity (0-100) to svg bottom position or wave-svg height
+            const height = 40 + (latest.humidity * 0.4); // ranges from 40px to 80px
+            waveSvg.style.height = `${height}px`;
+        }
+
+        // Dynamic hydration status
+        const badge = document.getElementById('hydrationStatusBadge');
+        if (latest.humidity >= 60) {
+            badge.innerHTML = '<i data-lucide="droplet" style="width: 12px; margin-right: 4px; vertical-align: middle;"></i> OPTIMAL';
+            badge.className = 'badge';
+            badge.style.background = 'rgba(16, 185, 129, 0.08)';
+            badge.style.color = 'var(--neon-green)';
+            badge.style.borderColor = 'rgba(16, 185, 129, 0.2)';
+        } else if (latest.humidity >= 40) {
+            badge.innerHTML = '<i data-lucide="alert-circle" style="width: 12px; margin-right: 4px; vertical-align: middle;"></i> CAUTION';
+            badge.className = 'badge';
+            badge.style.background = 'rgba(245, 158, 11, 0.08)';
+            badge.style.color = 'var(--neon-amber)';
+            badge.style.borderColor = 'rgba(245, 158, 11, 0.2)';
+        } else {
+            badge.innerHTML = '<i data-lucide="droplet-off" style="width: 12px; margin-right: 4px; vertical-align: middle;"></i> CRITICAL';
+            badge.className = 'badge';
+            badge.style.background = 'rgba(239, 68, 68, 0.08)';
+            badge.style.color = 'var(--neon-red)';
+            badge.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+        }
+
+        sortedRecords.forEach(r => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td><span style="font-weight: 600;">${new Date(r.recordDate).toLocaleDateString()}</span></td>
-                <td><i data-lucide="thermometer" style="width: 12px; vertical-align: middle; margin-right: 4px;"></i>${r.temperature}°C</td>
-                <td><i data-lucide="droplets" style="width: 12px; vertical-align: middle; margin-right: 4px;"></i>${r.humidity}%</td>
-                <td><i data-lucide="cloud-rain" style="width: 12px; vertical-align: middle; margin-right: 4px;"></i>${r.rainfall}mm</td>
+                <td><i data-lucide="thermometer" style="width: 12px; vertical-align: middle; margin-right: 4px; color: var(--neon-teal);"></i>${r.temperature}°C</td>
+                <td><i data-lucide="droplets" style="width: 12px; vertical-align: middle; margin-right: 4px; color: var(--neon-blue);"></i>${r.humidity}%</td>
+                <td><i data-lucide="cloud-rain" style="width: 12px; vertical-align: middle; margin-right: 4px; color: var(--neon-blue);"></i>${r.rainfall}mm</td>
             `;
             tbody.appendChild(row);
         });
+
+        // Set input date to today by default
+        document.getElementById('date').value = new Date().toISOString().substring(0, 10);
 
         if (window.lucide) lucide.createIcons();
 

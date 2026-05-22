@@ -18,16 +18,46 @@
         }
 
         body {
-            background-color: var(--bg-white);
+            background-color: var(--bg-main) !important;
             overflow-x: hidden;
+            color: var(--text-main);
         }
 
-        /* Hero Image - Generated Asset */
+        /* Nav Bar - Dark Glassmorphism */
+        .landing-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(11, 15, 25, 0.7) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color) !important;
+        }
+
+        .nav-logo h2 {
+            color: var(--text-main);
+        }
+
+        .nav-link {
+            color: var(--text-muted) !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-green) !important;
+            text-shadow: 0 0 8px var(--neon-green-glow);
+        }
+
+        /* Hero Section - Cybernetic Grid */
         .hero-section {
             position: relative;
-            padding-top: calc(var(--nav-height) + 60px);
-            padding-bottom: 100px;
-            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            padding-top: calc(var(--nav-height) + 80px);
+            padding-bottom: 120px;
+            background: radial-gradient(circle at 80% 50%, rgba(16, 185, 129, 0.05) 0%, var(--bg-main) 100%) !important;
             overflow: hidden;
         }
 
@@ -45,6 +75,50 @@
             z-index: 2;
         }
 
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--neon-green) !important;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            line-height: 1.1;
+            color: var(--text-main) !important;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hero-title span {
+            color: var(--neon-green) !important;
+            text-shadow: 0 0 10px var(--neon-green-glow);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted) !important;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.25rem;
+        }
+
         .hero-image-wrapper {
             flex: 1;
             position: relative;
@@ -54,77 +128,34 @@
         .hero-image {
             width: 100%;
             border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--border-color);
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: translateY(0);
             }
-
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-15px);
             }
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--accent-soft);
-            color: var(--primary);
-            border-radius: 100px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 4rem;
-            line-height: 1.1;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-title span {
-            color: var(--accent);
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-            max-width: 540px;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 1rem;
         }
 
         /* Features Section */
         .features-section {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 60px;
+            padding: 120px 0;
+            background: #0D1321 !important; /* Secondary Premium Dark */
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .section-header h2 {
             font-family: 'Outfit', sans-serif;
             font-size: 2.5rem;
-            color: var(--primary);
+            color: var(--text-main) !important;
             margin-bottom: 1rem;
+            font-weight: 800;
         }
 
         .feature-grid {
@@ -133,48 +164,46 @@
             padding: 0 2rem;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .feature-card {
             padding: 3rem 2rem;
             text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border-color) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-10px) !important;
+            border-color: var(--neon-green) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(16, 185, 129, 0.1) !important;
         }
 
         .feature-icon {
             width: 64px;
             height: 64px;
-            background: #f0fdf4;
-            color: var(--accent);
+            background: rgba(16, 185, 129, 0.08) !important;
+            color: var(--neon-green) !important;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1.75rem;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--neon-green) !important;
+            color: var(--bg-main) !important;
+            box-shadow: 0 0 15px var(--neon-green-glow);
         }
 
         /* Navigation */
-        .landing-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--nav-height);
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-container {
+        .landing-nav .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             height: 100%;
@@ -189,7 +218,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--primary);
+            color: var(--text-main) !important;
             font-family: 'Outfit', sans-serif;
             font-size: 1.5rem;
             font-weight: 800;
@@ -201,15 +230,33 @@
             align-items: center;
         }
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-weight: 500;
-            transition: color 0.3s;
+        /* Impact Section Stats */
+        .impact-stats-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #0B0F19 0%, #0D1321 100%) !important;
         }
 
-        .nav-link:hover {
-            color: var(--accent);
+        .impact-card h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem !important;
+            color: var(--neon-green) !important;
+            text-shadow: 0 0 15px var(--neon-green-glow);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-card p {
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            background: var(--bg-main) !important;
+            border-top: 1px solid var(--border-color) !important;
+            padding: 50px 0 !important;
         }
 
         @media screen and (max-width: 1024px) {
@@ -293,81 +340,71 @@
 
     <!-- Features Section -->
     <section class="features-section" id="features">
-        <div class="section-header">
+        <div class="section-header text-center mb-5">
             <h2>The Vanguard of Modern Farming</h2>
-            <p style="color: var(--text-muted);">Empowering farmers with data-driven insights and real-time defense
-                mechanisms.</p>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Empowering farmers with data-driven insights and real-time defense mechanisms.</p>
         </div>
         <div class="feature-grid">
             <!-- Farm Management -->
             <div class="sd-card feature-card">
                 <div class="feature-icon"><i data-lucide="layout-grid"></i></div>
                 <h3 class="heading-font mb-2">Farm Portfolio</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Effortlessly track multiple farms, soil metrics,
-                    and crop genotypes in one unified command center.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Effortlessly track multiple farms, soil metrics, and crop genotypes in one unified command center.</p>
             </div>
             <!-- AI Disease Detection -->
             <div class="sd-card feature-card">
-                <div class="feature-icon" style="background: #fee2e2; color: #ef4444;"><i data-lucide="scan-face"></i>
-                </div>
+                <div class="feature-icon" style="background: rgba(239, 68, 68, 0.08) !important; color: var(--neon-red) !important; border-color: rgba(239, 68, 68, 0.2);"><i data-lucide="scan-face"></i></div>
                 <h3 class="heading-font mb-2">Neural Scan Lab</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Upload crop images for instantaneous AI-driven
-                    diagnosis of blights, rusts, and mildews.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Upload crop images for instantaneous AI-driven diagnosis of blights, rusts, and mildews.</p>
             </div>
             <!-- Weather Intelligence -->
             <div class="sd-card feature-card">
-                <div class="feature-icon" style="background: #e0f2fe; color: #0ea5e9;"><i data-lucide="cloud-sun"></i>
-                </div>
+                <div class="feature-icon" style="background: rgba(59, 130, 246, 0.08) !important; color: var(--neon-blue) !important; border-color: rgba(59, 130, 246, 0.2);"><i data-lucide="cloud-sun"></i></div>
                 <h3 class="heading-font mb-2">Climate Logic</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time weather tracking integrated with crop
-                    physiological requirements for precision irrigation.</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Real-time weather tracking integrated with crop physiological requirements for precision irrigation.</p>
             </div>
         </div>
     </section>
 
     <!-- How it Works Section -->
-    <section class="features-section" style="background: #f8fafc; border-top: 1px solid var(--border-color);">
-        <div class="section-header">
+    <section class="features-section" style="background: var(--bg-main) !important; border-top: 1px solid var(--border-color);">
+        <div class="section-header text-center mb-5">
             <h2>Three Steps to Smart Farming</h2>
-            <p style="color: var(--text-muted);">Launch your field monitoring in minutes. No complex hardware required.
-            </p>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Launch your field monitoring in minutes. No complex hardware required.</p>
         </div>
         <div class="feature-grid">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">01</div>
-                <h4 class="heading-font">Register Field</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Add your farm details, location, and soil
-                    profile to your digital dashboard.</p>
+            <div class="sd-card text-center" style="padding: 2.5rem 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green-glow); margin-bottom: 1rem;">01</div>
+                <h4 class="heading-font mb-2" style="font-size: 1.25rem;">Register Field</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">Add your farm details, location, and soil profile to your digital dashboard.</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">02</div>
-                <h4 class="heading-font">Scan & Sync</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Snap a photo of any leaf. Our AI immediately
-                    analyzes health metrics.</p>
+            <div class="sd-card text-center" style="padding: 2.5rem 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--neon-teal); text-shadow: 0 0 10px var(--neon-teal-glow); margin-bottom: 1rem;">02</div>
+                <h4 class="heading-font mb-2" style="font-size: 1.25rem;">Scan & Sync</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">Snap a photo of any leaf. Our AI immediately analyzes health metrics.</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">03</div>
-                <h4 class="heading-font">Optimize Yield</h4>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Receive localized advice and climate alerts to
-                    maximize your harvest.</p>
+            <div class="sd-card text-center" style="padding: 2.5rem 1.5rem;">
+                <div style="font-size: 2.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue-glow); margin-bottom: 1rem;">03</div>
+                <h4 class="heading-font mb-2" style="font-size: 1.25rem;">Optimize Yield</h4>
+                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">Receive localized advice and climate alerts to maximize your harvest.</p>
             </div>
         </div>
     </section>
 
     <!-- Impact Stats -->
-    <section class="features-section" style="background: var(--primary); color: white;" id="impact">
+    <section class="features-section" style="background: rgba(17, 24, 39, 0.4) !important; border-top: 1px solid var(--border-color);" id="impact">
         <div class="feature-grid">
-            <div style="text-align: center;">
-                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">500+</h2>
-                <p>Protected Fields</p>
+            <div class="sd-card text-center" style="border-color: rgba(16, 185, 129, 0.15);">
+                <h2 style="font-family: 'Outfit'; font-size: 3.5rem; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green-glow); font-weight: 800; margin-bottom: 0.5rem;">500+</h2>
+                <p style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Protected Fields</p>
             </div>
-            <div style="text-align: center;">
-                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">95%</h2>
-                <p>Prediction Accuracy</p>
+            <div class="sd-card text-center" style="border-color: rgba(6, 182, 212, 0.15);">
+                <h2 style="font-family: 'Outfit'; font-size: 3.5rem; color: var(--neon-teal); text-shadow: 0 0 15px var(--neon-teal-glow); font-weight: 800; margin-bottom: 0.5rem;">95%</h2>
+                <p style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Prediction Accuracy</p>
             </div>
-            <div style="text-align: center;">
-                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">30%</h2>
-                <p>Yield Increase</p>
+            <div class="sd-card text-center" style="border-color: rgba(59, 130, 246, 0.15);">
+                <h2 style="font-family: 'Outfit'; font-size: 3.5rem; color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue-glow); font-weight: 800; margin-bottom: 0.5rem;">30%</h2>
+                <p style="color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Yield Increase</p>
             </div>
         </div>
     </section>

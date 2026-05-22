@@ -53,21 +53,26 @@
             <header class="top-header">
                 <div class="page-title">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
-                                style="width: 18px;"></i></a>
-                        <h2>Farmer Registry</h2>
+                        <a href="dashboard.html" style="color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); transition: all 0.3s ease;"><i data-lucide="arrow-left"
+                                style="width: 16px;"></i></a>
+                        <h2 style="font-size: 1.15rem; margin-left: 0.5rem;">Farmer Registry</h2>
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">Admin Control Panel</span>
+                    <span style="font-size: 0.8rem; color: var(--neon-teal); font-weight: 600; filter: drop-shadow(0 0 6px var(--neon-teal-glow));">SECURE SYSTEM REGISTRY</span>
                 </div>
             </header>
 
-            <div style="padding: 2rem;" class="p-4">
+            <div style="padding: 2.5rem;" class="p-4">
                 <div class="sd-card">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 class="heading-font" style="font-size: 1.25rem;">Active Users</h3>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                                <i data-lucide="users" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Active Users</h3>
+                        </div>
                         <div class="badge badge-success" id="farmerCount">0 Farmers</div>
                     </div>
 

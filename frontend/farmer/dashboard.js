@@ -100,5 +100,34 @@ function goToWeather(farmId) {
     window.location.href = `weather.html?farmId=${farmId}`;
 }
 
+function selectField(name, ph, moisture) {
+    document.getElementById('tooltip-name').textContent = name;
+    document.getElementById('tooltip-ph').textContent = ph;
+    document.getElementById('selected-field-trend').textContent = name + ' Trend';
+    
+    // Highlight and animate moisture bars
+    const barFills = document.querySelectorAll('.bar-fill');
+    if (barFills.length >= 5) {
+        barFills[0].style.height = `${moisture}%`;
+        barFills[1].style.height = `${Math.max(10, moisture - 20)}%`;
+        barFills[2].style.height = `${Math.min(100, moisture + 15)}%`;
+        barFills[3].style.height = `${Math.max(10, moisture - 10)}%`;
+        barFills[4].style.height = `${Math.min(100, moisture + 5)}%`;
+    }
+}
+
+function animateCircularProgress() {
+    const circle = document.querySelector('.progress-bar-svg');
+    if (circle) {
+        // Circumference is 440 in style.css stroke-dasharray
+        // Animate from 440 to 440 - (440 * 0.92) = 35.2
+        circle.style.strokeDashoffset = '440';
+        setTimeout(() => {
+            circle.style.strokeDashoffset = '35.2';
+        }, 100);
+    }
+}
+
 // Init
 loadFarms();
+animateCircularProgress();

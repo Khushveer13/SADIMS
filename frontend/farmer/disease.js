@@ -31,26 +31,38 @@ function displayOrganicSolutions(solutionsData) {
 
     if (!solutions || solutions.length === 0) {
         const msg = (typeof t !== 'undefined') ? t('noOrganicSolutions') : 'No organic solutions available.';
-        container.innerHTML = `<p style="color: var(--text-muted); font-style: italic;">${msg}</p>`;
+        container.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size: 0.88rem;">${msg}</p>`;
         return;
     }
 
-    let html = '<ul style="margin: 0; padding-left: 1.5rem; list-style: none;">';
-    solutions.forEach((sol, index) => {
-        const dosageLabel = (typeof t !== 'undefined') ? t('dosageLabel') : 'Dosage:';
-        const frequencyLabel = (typeof t !== 'undefined') ? t('frequencyLabel') : 'Frequency:';
+    let html = '';
+    solutions.forEach((sol) => {
         html += `
-            <li style="margin-bottom: 1rem; padding-bottom: 1rem; ${index < solutions.length - 1 ? 'border-bottom: 1px solid var(--border-color);' : ''}">
-                <strong style="color: #10b981; font-size: 0.95rem;">${sol.name}</strong><br>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">
-                    📊 <strong>${dosageLabel}</strong> ${sol.dosage}<br>
-                    ⏱️ <strong>${frequencyLabel}</strong> ${sol.frequency}<br>
-                    💡 <em>${sol.note}</em>
-                </span>
-            </li>
+            <div class="remedy-card" style="margin-bottom: 1.25rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+                <div class="remedy-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">${sol.name}</span>
+                    <span class="badge badge-success" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Dosage:</span>
+                        <span style="font-weight: 600; color: var(--text-main);">${sol.dosage}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Frequency:</span>
+                        <span style="font-weight: 600; color: var(--text-main);">${sol.frequency}</span>
+                    </div>
+                    <div style="margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px; font-style: italic; font-size: 0.78rem;">
+                        🌿 ${sol.note}
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Outfit'; font-size: 1.15rem; font-weight: 800; color: var(--text-main);">$12.50 <span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);">/ unit</span></span>
+                    <button class="sd-btn sd-btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem; border-radius: 6px;" onclick="alert('Order placed successfully!')">Order Remedy</button>
+                </div>
+            </div>
         `;
     });
-    html += '</ul>';
     container.innerHTML = html;
 }
 
@@ -61,26 +73,38 @@ function displayChemicalSolutions(solutionsData) {
 
     if (!solutions || solutions.length === 0) {
         const msg = (typeof t !== 'undefined') ? t('noChemicalSolutions') : 'No chemical solutions available.';
-        container.innerHTML = `<p style="color: var(--text-muted); font-style: italic;">${msg}</p>`;
+        container.innerHTML = `<p style="color: var(--text-muted); font-style: italic; font-size: 0.88rem;">${msg}</p>`;
         return;
     }
 
-    let html = '<ul style="margin: 0; padding-left: 1.5rem; list-style: none;">';
-    solutions.forEach((sol, index) => {
-        const dosageLabel = (typeof t !== 'undefined') ? t('dosageLabel') : 'Dosage:';
-        const frequencyLabel = (typeof t !== 'undefined') ? t('frequencyLabel') : 'Frequency:';
+    let html = '';
+    solutions.forEach((sol) => {
         html += `
-            <li style="margin-bottom: 1rem; padding-bottom: 1rem; ${index < solutions.length - 1 ? 'border-bottom: 1px solid var(--border-color);' : ''}">
-                <strong style="color: #3b82f6; font-size: 0.95rem;">${sol.name}</strong><br>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">
-                    📊 <strong>${dosageLabel}</strong> ${sol.dosage}<br>
-                    ⏱️ <strong>${frequencyLabel}</strong> ${sol.frequency}<br>
-                    ⚠️ <em>${sol.note}</em>
-                </span>
-            </li>
+            <div class="remedy-card" style="margin-bottom: 1.25rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem;">
+                <div class="remedy-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">${sol.name}</span>
+                    <span class="badge" style="background: rgba(59, 130, 246, 0.08); color: var(--neon-blue); border-color: rgba(59, 130, 246, 0.2); font-size: 0.65rem;">Chemical</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Dosage:</span>
+                        <span style="font-weight: 600; color: var(--text-main);">${sol.dosage}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Frequency:</span>
+                        <span style="font-weight: 600; color: var(--text-main);">${sol.frequency}</span>
+                    </div>
+                    <div style="margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px; font-style: italic; font-size: 0.78rem;">
+                        🧪 ${sol.note}
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-family: 'Outfit'; font-size: 1.15rem; font-weight: 800; color: var(--text-main);">$18.90 <span style="font-size: 0.7rem; font-weight: 400; color: var(--text-muted);">/ unit</span></span>
+                    <button class="sd-btn" style="padding: 0.4rem 1rem; font-size: 0.75rem; border-radius: 6px; background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.2); color: var(--neon-blue);" onclick="alert('Order placed successfully!')">Order Chemical</button>
+                </div>
+            </div>
         `;
     });
-    html += '</ul>';
     container.innerHTML = html;
 }
 

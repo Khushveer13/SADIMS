@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="sd-card stat-card">
-                    <div class="stat-icon" style="background: rgba(221, 161, 94, 0.15); color: #DDA15E;"><i
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.08) !important; color: var(--neon-amber) !important; border-color: rgba(245, 158, 11, 0.2);"><i
                             data-lucide="activity"></i></div>
                     <div class="stat-info">
                         <div class="label">Health Checks</div>
@@ -80,11 +80,148 @@
                     </div>
                 </div>
                 <div class="sd-card stat-card">
-                    <div class="stat-icon" style="background: rgba(116, 198, 157, 0.15); color: #2D6A4F;"><i
-                            data-lucide="cloud-rain"></i></div>
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.08) !important; color: var(--neon-green) !important; border-color: rgba(16, 185, 129, 0.2);"><i
+                            data-lucide="shield-check"></i></div>
                     <div class="stat-info">
                         <div class="label">Status</div>
-                        <div class="value">Active</div>
+                        <div class="value" style="color: var(--neon-green);">Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Agro-Cybernetic Analytics Grid (Mockup 2) -->
+            <div class="dashboard-grid" style="padding: 0 2.5rem 1.5rem 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.75rem;">
+                <!-- Column 1: Health & Activity -->
+                <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 class="heading-font" style="font-size: 1.15rem; color: var(--text-main);">Overall Crop Health</h3>
+                        <span class="badge badge-success"><i data-lucide="shield-check" style="width: 12px;"></i> Optimized</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                        <div class="circular-progress-container">
+                            <div class="circular-progress">
+                                <svg>
+                                    <circle class="bg-circle" cx="75" cy="75" r="65"></circle>
+                                    <circle class="progress-bar-svg" cx="75" cy="75" r="65" style="stroke-dashoffset: 44;"></circle>
+                                </svg>
+                                <div class="circular-progress-value">
+                                    92%
+                                    <span>Healthy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="flex-grow: 1; min-width: 180px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--neon-green); box-shadow: 0 0 6px var(--neon-green);"></span>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted);">Wheat Fields</span>
+                                </div>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">96% Health</span>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--neon-blue); box-shadow: 0 0 6px var(--neon-blue);"></span>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted);">Corn Fields</span>
+                                </div>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">89% Health</span>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--neon-teal); box-shadow: 0 0 6px var(--neon-teal);"></span>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted);">Soy Fields</span>
+                                </div>
+                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">91% Health</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr style="margin: 1.5rem 0;">
+                    
+                    <div>
+                        <h4 class="heading-font" style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.75rem;">Active Field Moisture Levels</h4>
+                        <div class="bar-chart-container">
+                            <div class="bar-column">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="height: 75%;"></div>
+                                </div>
+                                <div class="bar-label">Block A</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="height: 48%;"></div>
+                                </div>
+                                <div class="bar-label">Block B</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="height: 90%;"></div>
+                                </div>
+                                <div class="bar-label">Block C</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="height: 60%;"></div>
+                                </div>
+                                <div class="bar-label">Block D</div>
+                            </div>
+                            <div class="bar-column">
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="height: 82%;"></div>
+                                </div>
+                                <div class="bar-label">Block E</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Satellite Map & Analytics -->
+                <div class="sd-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 class="heading-font" style="font-size: 1.15rem; color: var(--text-main);">Satellite Field Vector Map</h3>
+                        <span class="badge" style="background: rgba(6, 182, 212, 0.08); color: var(--neon-teal); border-color: rgba(6, 182, 212, 0.2);"><i data-lucide="locate-fixed" style="width: 12px;"></i> GPS Sync</span>
+                    </div>
+                    
+                    <div class="satellite-map-container" style="position: relative; background: #070913; height: 230px;">
+                        <svg viewBox="0 0 400 230" style="width: 100%; height: 100%;">
+                            <!-- Grid Background pattern -->
+                            <defs>
+                                <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.02)" stroke-width="1"/>
+                                </pattern>
+                                <linearGradient id="sparkline-grad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="var(--neon-teal)" stop-opacity="0.2"/>
+                                    <stop offset="100%" stop-color="var(--neon-teal)" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#map-grid)" />
+                            
+                            <!-- Field Polygons -->
+                            <polygon points="40,30 150,30 130,110 50,110" class="field-polygon" onclick="selectField('Block A (Wheat)', 'pH: 6.4', 78)"></polygon>
+                            <polygon points="170,30 350,40 330,120 180,120" class="field-polygon" style="stroke: var(--neon-blue); fill: rgba(59, 130, 246, 0.15); filter: drop-shadow(0 0 6px var(--neon-blue-glow));" onclick="selectField('Block B (Corn)', 'pH: 6.8', 52)"></polygon>
+                            <polygon points="60,130 190,130 180,210 50,210" class="field-polygon" style="stroke: var(--neon-teal); fill: rgba(6, 182, 212, 0.15); filter: drop-shadow(0 0 6px var(--neon-teal-glow));" onclick="selectField('Block C (Soy)', 'pH: 6.1', 85)"></polygon>
+                            <polygon points="210,135 340,135 350,210 220,210" class="field-polygon" onclick="selectField('Block D (Wheat)', 'pH: 6.5', 63)"></polygon>
+                        </svg>
+                        
+                        <!-- Interactive node details floating in map container -->
+                        <div id="map-tooltip" class="map-node" style="position: absolute; top: 15px; left: 15px; display: block; z-index: 100;">
+                            <span id="tooltip-name">Block A (Wheat)</span> | <span id="tooltip-ph" style="color: var(--text-main);">pH: 6.4</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <h4 class="heading-font" style="font-size: 0.95rem; color: var(--text-main);">Soil Moisture Trends (7d)</h4>
+                            <span id="selected-field-trend" style="font-size: 0.78rem; font-weight: 700; color: var(--neon-teal);">Block A Trend</span>
+                        </div>
+                        <div>
+                            <svg class="sparkline-svg" viewBox="0 0 350 100">
+                                <path class="sparkline-area" d="M0,80 Q50,40 100,60 T200,30 T300,50 T350,20 L350,100 L0,100 Z"></path>
+                                <path class="sparkline-path" d="M0,80 Q50,40 100,60 T200,30 T300,50 T350,20"></path>
+                                <circle class="sparkline-point" cx="100" cy="60"></circle>
+                                <circle class="sparkline-point" cx="200" cy="30" style="fill: var(--neon-blue); stroke-width: 2px; filter: drop-shadow(0 0 4px var(--neon-blue));"></circle>
+                                <circle class="sparkline-point" cx="300" cy="50"></circle>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>

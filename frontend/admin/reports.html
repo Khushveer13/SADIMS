@@ -53,27 +53,35 @@
             <header class="top-header">
                 <div class="page-title">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
-                                style="width: 18px;"></i></a>
-                        <h2>Strategic AI Reports</h2>
+                        <a href="dashboard.html" style="color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); transition: all 0.3s ease;"><i data-lucide="arrow-left"
+                                style="width: 16px;"></i></a>
+                        <h2 style="font-size: 1.15rem; margin-left: 0.5rem;">Strategic AI Reports</h2>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <button onclick="showSection('disease')" class="sd-btn sd-btn-primary"
-                        style="font-size: 0.75rem; padding: 0.5rem 1rem;">Disease Intelligence</button>
-                    <button onclick="showSection('weather')" class="sd-btn"
-                        style="font-size: 0.75rem; padding: 0.5rem 1rem; background: var(--bg-white); border: 1px solid var(--border-color);">Weather
-                        Logs</button>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <button id="btnDisease" onclick="showSection('disease')" class="sd-btn sd-btn-primary"
+                        style="font-size: 0.75rem; padding: 0.5rem 1.25rem;">
+                        <i data-lucide="brain-circuit" style="width: 14px;"></i> Disease Intel
+                    </button>
+                    <button id="btnWeather" onclick="showSection('weather')" class="sd-btn"
+                        style="font-size: 0.75rem; padding: 0.5rem 1.25rem; background: rgba(255, 255, 255, 0.03);">
+                        <i data-lucide="cloud-sun" style="width: 14px;"></i> Weather Logs
+                    </button>
                 </div>
             </header>
 
-            <div style="padding: 2rem;" class="p-4">
+            <div style="padding: 2.5rem;" class="p-4">
                 <!-- Disease Section -->
                 <div id="diseaseSection">
                     <div class="sd-card">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3 class="heading-font" style="font-size: 1.25rem;">Global Disease Monitoring</h3>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-red);">
+                                    <i data-lucide="alert-triangle" style="width: 16px;"></i>
+                                </div>
+                                <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Global Disease Monitoring</h3>
+                            </div>
                             <div class="badge badge-danger">High Awareness</div>
                         </div>
 
@@ -104,9 +112,13 @@
                     <div class="sd-card">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3 class="heading-font" style="font-size: 1.25rem;">Global Agro-Meteorology</h3>
-                            <div class="badge" style="background: rgba(116, 198, 157, 0.15); color: #2D6A4F;">Climate
-                                Monitoring</div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-teal);">
+                                    <i data-lucide="cloud-rain" style="width: 16px;"></i>
+                                </div>
+                                <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Global Agro-Meteorology</h3>
+                            </div>
+                            <div class="badge" style="background: rgba(6, 182, 212, 0.12); color: var(--neon-teal); border: 1px solid rgba(6, 182, 212, 0.2);">Climate Monitoring</div>
                         </div>
 
                         <div class="table-container">
