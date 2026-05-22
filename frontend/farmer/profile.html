@@ -10,63 +10,63 @@
     <style>
         .profile-container {
             max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
         }
 
         .profile-header {
             display: flex;
             align-items: center;
             gap: 2rem;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: var(--primary);
-            color: white;
+            margin-bottom: 2.5rem;
+            padding: 2.25rem;
+            background: rgba(17, 24, 39, 0.75);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-main);
             border-radius: var(--radius-lg);
             overflow: hidden;
             position: relative;
-        }
-
-        .profile-header::after {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: var(--accent);
-            opacity: 0.1;
-            border-radius: 50%;
+            box-shadow: var(--shadow-md), 0 0 25px rgba(16, 185, 129, 0.03);
+            animation: fadeInUp 0.5s ease-out forwards;
         }
 
         .profile-avatar {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: white;
+            background: rgba(16, 185, 129, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
+            color: var(--neon-green);
             font-size: 2.5rem;
-            border: 4px solid var(--accent);
+            border: 3px solid var(--neon-green);
             z-index: 1;
+            filter: drop-shadow(0 0 8px var(--neon-green-glow));
+            flex-shrink: 0;
         }
 
         .profile-info h2 {
             font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
         }
 
         .profile-info p {
-            opacity: 0.8;
+            color: var(--text-muted);
             font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            gap: 1.75rem;
         }
     </style>
 </head>
@@ -115,13 +115,13 @@
             <header class="top-header">
                 <div class="page-title">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
-                                style="width: 18px;"></i></a>
-                        <h2>Farmer Profile</h2>
+                        <a href="dashboard.html" style="color: var(--text-muted); display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(255,255,255,0.02); transition: all 0.3s ease;"><i data-lucide="arrow-left"
+                                style="width: 16px;"></i></a>
+                        <h2 style="font-size: 1.15rem; margin-left: 0.5rem;">Farmer Profile</h2>
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span id="roleLabel" class="badge badge-success">Farmer</span>
+                    <span id="roleLabel" class="badge badge-success"><i data-lucide="shield-check" style="width: 12px;"></i> Verified Farmer</span>
                 </div>
             </header>
 
@@ -132,38 +132,49 @@
                     </div>
                     <div class="profile-info">
                         <h2 id="dispName">Loading...</h2>
-                        <p id="dispMobile">---</p>
+                        <p id="dispMobile"><i data-lucide="phone" style="width: 14px; color: var(--neon-green);"></i> ---</p>
                     </div>
                 </div>
 
                 <div class="info-grid">
                     <div class="sd-card">
-                        <h3 class="heading-font mb-4" style="font-size: 1.1rem; color: var(--primary);">Account Details
-                        </h3>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                                <i data-lucide="text" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.15rem; margin-bottom: 0;">Account Details</h3>
+                        </div>
+                        
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" id="profName" class="sd-input" readonly>
+                            <input type="text" id="profName" class="sd-input" style="background: rgba(255,255,255,0.01);" readonly>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Mobile Number</label>
-                            <input type="text" id="profMobile" class="sd-input" readonly>
+                            <input type="text" id="profMobile" class="sd-input" style="background: rgba(255,255,255,0.01);" readonly>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Member Since</label>
-                            <input type="text" id="profJoinDate" class="sd-input" readonly>
+                            <input type="text" id="profJoinDate" class="sd-input" style="background: rgba(255,255,255,0.01);" readonly>
                         </div>
                     </div>
 
-                    <div class="sd-card">
-                        <h3 class="heading-font mb-4" style="font-size: 1.1rem; color: var(--primary);">Security</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Manage your
-                            access credentials below.</p>
+                    <div class="sd-card" style="display: flex; flex-direction: column;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue);">
+                                <i data-lucide="key-round" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.15rem; margin-bottom: 0;">Security</h3>
+                        </div>
+                        
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Manage your access credentials below.</p>
+                        
                         <div class="form-group">
                             <label class="form-label">Role</label>
-                            <input type="text" id="profRole" class="sd-input" value="Verified Farmer" readonly>
+                            <input type="text" id="profRole" class="sd-input" style="background: rgba(255,255,255,0.01);" value="Verified Farmer" readonly>
                         </div>
                         <button id="changePassBtn" class="sd-btn"
-                            style="width: 100%; background: #f8fafc; border: 1.5px solid var(--border-color); color: var(--text-main);">
+                            style="width: 100%; background: rgba(255, 255, 255, 0.03); border: 1.5px solid var(--border-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; gap: 8px;">
                             <i data-lucide="lock" style="width: 16px;"></i> Change Password
                         </button>
 
@@ -171,11 +182,11 @@
                             style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
                             <div class="form-group">
                                 <label class="form-label">Existing Password</label>
-                                <input type="password" id="oldPass" class="sd-input">
+                                <input type="password" id="oldPass" class="sd-input" placeholder="••••••••">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">New Password</label>
-                                <input type="password" id="newPass" class="sd-input">
+                                <input type="password" id="newPass" class="sd-input" placeholder="••••••••">
                             </div>
                             <button onclick="updatePassword()" class="sd-btn sd-btn-primary" style="width: 100%;">
                                 Update Access Key
