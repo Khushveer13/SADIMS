@@ -1,3 +1,16 @@
+const user = JSON.parse(localStorage.getItem('user'));
+if (!user || user.role !== 'FARMER') {
+    window.location.href = '../auth/login.html';
+}
+
+// Dynamic user name in header
+if (user && user.name) {
+    const headerUserNameEl = document.getElementById('headerUserName');
+    if (headerUserNameEl) {
+        headerUserNameEl.textContent = user.name;
+    }
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 let farmId = urlParams.get('farmId');
 

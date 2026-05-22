@@ -9,47 +9,68 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .drop-zone {
-            border: 2px dashed var(--border-color);
+            border: 1px dashed rgba(16, 185, 129, 0.3);
             border-radius: var(--radius-md);
-            padding: 3rem;
-            text-align: center;
-            background: var(--bg-white);
+            background: rgba(11, 15, 25, 0.2);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
         }
 
-        .drop-zone:hover,
-        .drop-zone.active {
-            border-color: var(--primary);
-            background: var(--accent-soft);
+        .drop-zone:hover {
+            border-color: var(--neon-green);
+            background: rgba(16, 185, 129, 0.05);
         }
 
         .preview-img {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 100%;
             border-radius: var(--radius-sm);
-            margin-top: 1rem;
-            display: none;
-            box-shadow: var(--shadow-md);
+            object-fit: cover;
         }
 
-        .pulse {
-            animation: pulse-bg 1.5s infinite;
+        .pulse-neon {
+            animation: pulse-neon-shadow 1.5s infinite alternate;
         }
 
-        @keyframes pulse-bg {
+        @keyframes pulse-neon-shadow {
             0% {
-                background-color: var(--bg-white);
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
             }
-
-            50% {
-                background-color: var(--accent-soft);
-            }
-
             100% {
-                background-color: var(--bg-white);
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
             }
+        }
+
+        /* Scanning Sweep line */
+        @keyframes laserScan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        .laser-scan-active {
+            animation: laserScan 2.5s infinite linear;
+        }
+
+        /* Float elements */
+        .hud-float {
+            animation: hudFloatAnim 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes hudFloatAnim {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
+        }
+
+        /* Bounding box glowing animation */
+        @keyframes boxGlow {
+            0% { border-color: var(--neon-teal); box-shadow: 0 0 6px var(--neon-teal-glow); }
+            100% { border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green-glow); }
+        }
+
+        .bounding-box-active {
+            animation: boxGlow 2s infinite alternate ease-in-out;
         }
     </style>
 </head>
@@ -93,234 +114,397 @@
         </aside>
 
         <main class="main-content">
-            <header class="top-header">
-                <div class="page-title">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
-                                style="width: 18px;"></i></a>
-                        <h2>Leaf Scan Lab</h2>
+            <header class="top-header" style="justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(11, 15, 25, 0.4); backdrop-filter: blur(20px); height: 80px; padding: 0 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="dashboard.html" style="color: var(--text-muted); display: flex; align-items: center;"><i data-lucide="arrow-left" style="width: 18px; color: var(--text-muted);"></i></a>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 28px; height: 28px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                            <i data-lucide="sprout" style="width: 16px;"></i>
+                        </div>
+                        <h2 style="font-size: 1.15rem; font-weight: 800; letter-spacing: 0.5px; background: linear-gradient(90deg, #fff 0%, var(--neon-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 8px; margin: 0;">
+                            CROPSCAN AI <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted); opacity: 0.8; padding-left: 8px; border-left: 1px solid rgba(255,255,255,0.2);">Premium Analysis</span>
+                        </h2>
                     </div>
                 </div>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 0.8rem; color: var(--text-muted);">Farm ID: <span id="farmIdDisplay"
-                            style="font-weight: 600; color: var(--primary);">--</span></span>
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Farm ID: <span id="farmIdDisplay" style="font-weight: 600; color: var(--primary);">--</span></span>
+                    <!-- Notification Bell & Dropdown -->
+                    <div style="position: relative; display: flex; align-items: center; z-index: 1001;">
+                        <div onclick="toggleNotifications(event)" style="position: relative; cursor: pointer; color: var(--text-muted); display: flex; align-items: center;" id="notificationBellBtn">
+                            <i data-lucide="bell" style="width: 20px; height: 20px; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''"></i>
+                            <span id="notificationBadge" style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--neon-red); border-radius: 50%; box-shadow: 0 0 6px var(--neon-red); display: none;"></span>
+                        </div>
+                        
+                        <!-- Premium High-Tech Dropdown Menu -->
+                        <div id="notificationsDropdown" style="display: none; position: absolute; top: 35px; right: 0; width: 320px; background: rgba(10, 15, 26, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85); font-family: 'Inter', sans-serif; padding: 1rem; overflow: hidden; animation: hudFloatAnim 4s ease-in-out infinite alternate; z-index: 1002;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">
+                                <h4 style="font-size: 0.8rem; font-weight: 700; color: #fff; margin: 0; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    <i data-lucide="bell" style="width: 14px; color: var(--neon-green);"></i> System Alerts
+                                </h4>
+                                <span onclick="clearNotifications(event)" style="font-size: 0.65rem; color: var(--neon-teal); cursor: pointer; font-weight: 600;">Mark all read</span>
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 0.65rem;" id="notificationList">
+                                <!-- Alert 1 -->
+                                <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 0.5rem; font-size: 0.72rem; line-height: 1.4; text-align: left;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                        <span style="color: var(--neon-red); font-weight: 700; display: flex; align-items: center; gap: 4px; font-size: 0.65rem;">
+                                            <i data-lucide="shield-alert" style="width: 12px; height: 12px;"></i> DANGER
+                                        </span>
+                                        <span style="color: var(--text-muted); font-size: 0.6rem;">2 mins ago</span>
+                                    </div>
+                                    <div style="color: #fff; font-weight: 500;">Wheat Block B-12 Rust Detected</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 1px;">Severity estimated at 68% (Moderate risk)</div>
+                                </div>
+                                
+                                <!-- Alert 2 -->
+                                <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 0.5rem; font-size: 0.72rem; line-height: 1.4; text-align: left;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                        <span style="color: var(--neon-green); font-weight: 700; display: flex; align-items: center; gap: 4px; font-size: 0.65rem;">
+                                            <i data-lucide="check-circle" style="width: 12px; height: 12px;"></i> HEALTHY
+                                        </span>
+                                        <span style="color: var(--text-muted); font-size: 0.6rem;">1 hr ago</span>
+                                    </div>
+                                    <div style="color: #fff; font-weight: 500;">Maize Block A-04 Normal Status</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 1px;">Diagnostic scan successfully registered.</div>
+                                </div>
+
+                                <!-- Alert 3 -->
+                                <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 0.5rem; font-size: 0.72rem; line-height: 1.4; text-align: left;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                                        <span style="color: var(--neon-teal); font-weight: 700; display: flex; align-items: center; gap: 4px; font-size: 0.65rem;">
+                                            <i data-lucide="cpu" style="width: 12px; height: 12px;"></i> SYSTEM
+                                        </span>
+                                        <span style="color: var(--text-muted); font-size: 0.6rem;">System Start</span>
+                                    </div>
+                                    <div style="color: #fff; font-weight: 500;">CROPSCAN AI Online</div>
+                                    <div style="color: var(--text-muted); font-size: 0.65rem; margin-top: 1px;">Offline Emulation Engine v4.2 connected.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- User Widget & Dropdown Container -->
+                    <div style="position: relative; display: flex; align-items: center; z-index: 1001;">
+                        <div onclick="toggleProfileDropdown(event)" style="display: flex; align-items: center; gap: 0.75rem; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.25rem; cursor: pointer; transition: opacity 0.2s;" id="profileWidgetBtn" title="User Actions" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">User: <span style="font-weight: 600; color: #fff;" id="headerUserName">Farmer</span></span>
+                            <!-- High-Tech Avatar -->
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--primary); border: 1px solid var(--accent); overflow: hidden;">
+                                <i data-lucide="user"></i>
+                            </div>
+                            <!-- Version pill -->
+                            <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">V 4.2</span>
+                        </div>
+                        
+                        <!-- Profile Dropdown Menu -->
+                        <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; width: 200px; background: rgba(10, 15, 26, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85); font-family: 'Inter', sans-serif; padding: 0.75rem; z-index: 1002;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <a href="profile.html" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 8px; color: #fff; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background=''">
+                                    <i data-lucide="user" style="width: 14px; height: 14px; color: var(--neon-green);"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a href="profile.html?changePassword=true" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 8px; color: #fff; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background=''">
+                                    <i data-lucide="key-round" style="width: 14px; height: 14px; color: var(--neon-amber);"></i>
+                                    <span>Change Password</span>
+                                </a>
+                                <hr style="border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 0.25rem 0;">
+                                <div onclick="logout()" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: 8px; color: var(--neon-red); cursor: pointer; font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.15)'" onmouseout="this.style.background=''">
+                                    <i data-lucide="log-out" style="width: 14px; height: 14px; color: var(--neon-red);"></i>
+                                    <span style="font-weight: 600;">Logout</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <div style="padding: 2rem;" class="p-4">
-                <div class="dashboard-grid" style="padding: 0; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; align-items: start;">
-                    <!-- Left Column: Neural Scan Viewport -->
-                    <div class="sd-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                            <h3 class="heading-font" style="font-size: 1.25rem;">AI Health Intelligence</h3>
-                            <span class="badge" style="background: rgba(16, 185, 129, 0.08); color: var(--neon-green); border-color: rgba(16, 185, 129, 0.2);"><i data-lucide="cpu" style="width: 12px;"></i> Core ML v2.0</span>
-                        </div>
-
-                        <!-- Drop zone double as scanning viewport -->
-                        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" style="margin-bottom: 1.5rem; overflow: hidden; position: relative;">
-                            <!-- Idle State -->
-                            <div id="dropZoneIdle">
-                                <i data-lucide="cloud-upload"
-                                    style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 1rem;"></i>
-                                <h4 class="heading-font">Drop leaf image here</h4>
-                                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Formats: JPG, PNG, WEBP</p>
+            <div style="padding: 1.5rem 2.5rem;" class="p-4">
+                <!-- Main Cockpit Grid -->
+                <div style="display: grid; grid-template-columns: minmax(400px, 450px) 1fr; gap: 2rem; align-items: start; margin-bottom: 2rem;" id="cockpitGrid">
+                    
+                    <!-- Left Column: Diagnostic & Recommendations Panel -->
+                    <div class="sd-card" style="margin: 0; display: flex; flex-direction: column; gap: 0; min-height: 535px;">
+                        <!-- Header with dynamic timestamp -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 6px; color: var(--neon-green);">
+                                <i data-lucide="leaf" style="width: 16px; height: 16px;"></i>
+                                <span style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Leaf Diagnostics</span>
                             </div>
-                            
-                            <!-- Leaf Scan Viewport (Mockup 3 targeting) -->
-                            <div class="scanning-viewport" id="scanningViewport" style="display: none; height: 260px; border: none; background: transparent; width: 100%;">
-                                <div class="scanning-grid"></div>
-                                <div class="leaf-target-overlay" style="width: 180px; height: 180px;">
-                                    <div class="target-corner corner-tl"></div>
-                                    <div class="target-corner corner-tr"></div>
-                                    <div class="target-corner corner-bl"></div>
-                                    <div class="target-corner corner-br"></div>
-                                    <img id="preview" class="preview-img" src="" alt="Target Leaf" style="max-width: 90%; max-height: 90%; border-radius: var(--radius-sm); object-fit: cover; display: none; margin: 0;">
-                                </div>
-                                <div class="laser-scan-line" id="laserLine"></div>
-                                <div class="scanning-label" id="scanningLabel">Targeting Leaf...</div>
-                            </div>
+                            <span id="diagnosticTime" style="font-size: 0.75rem; color: var(--text-muted);">03:45 PM</span>
                         </div>
 
-                        <input type="file" id="fileInput" class="hidden" accept="image/*">
-
-                        <div class="mt-4"
-                            style="background: rgba(10, 15, 26, 0.4); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                            <label class="form-label" style="font-size: 0.72rem;">Mock Image Path</label>
-                            <input type="text" id="imagePath" class="sd-input" value="C:/images/sample.jpg"
-                                style="padding: 0.5rem; font-family: monospace; font-size: 0.82rem;">
+                        <!-- Identified Disease Section -->
+                        <div style="margin-bottom: 1.25rem;">
+                            <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Identified Disease:</span>
+                            <h3 id="diseaseName" style="font-size: 1.45rem; font-weight: 800; color: #fff; margin-top: 2px;">Leaf Rust (Puccinia sorghi)</h3>
                         </div>
 
-                        <div class="mt-4">
-                            <button onclick="checkDisease()" id="analyzeBtn" class="sd-btn sd-btn-primary"
-                                style="width: 100%; min-height: 52px; border-radius: 8px;">
-                                <i data-lucide="sparkles" style="width: 18px;"></i> Analyze Sample
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Right Column: Diagnostic Results -->
-                    <div id="resultSection" class="sd-card hidden" style="margin: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
-                            <h3 class="heading-font" style="font-size: 1.15rem; color: var(--text-main);">AI Diagnosis Report</h3>
-                            <div id="statusBadge" class="badge hidden"
-                                style="display: inline-block; padding: 0.4rem 0.9rem;">--
-                            </div>
-                        </div>
-
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem;">
-                            <div>
-                                <span class="form-label" style="margin-bottom: 2px;">Identified Disease</span>
-                                <h4 class="heading-font" style="font-size: 1.65rem; color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red-glow);" id="diseaseName">--</h4>
-                            </div>
-                            
-                            <!-- Circular confidence score gauge -->
-                            <div class="circular-progress-container" style="padding: 0;">
-                                <div class="circular-progress" style="width: 100px; height: 100px;">
-                                    <svg style="width: 100px; height: 100px;">
-                                        <circle class="bg-circle" cx="50" cy="50" r="40" style="stroke-width: 6;"></circle>
-                                        <circle class="progress-bar-svg" id="confidenceCircle" cx="50" cy="50" r="40" style="stroke-width: 6; stroke: var(--neon-green); stroke-dasharray: 251; stroke-dashoffset: 251; filter: drop-shadow(0 0 4px var(--neon-green));"></circle>
-                                    </svg>
-                                    <div class="circular-progress-value" style="font-size: 1.25rem;">
-                                        <span id="confidence">--%</span>
-                                        <span style="font-size: 0.55rem; letter-spacing: 0;">Confidence</span>
-                                    </div>
+                        <!-- Circular Gauge (Semi-circular progress) -->
+                        <div class="circular-progress-container" style="padding: 0; margin-bottom: 0.5rem;">
+                            <div style="position: relative; width: 220px; margin: 0 auto;">
+                                <svg viewBox="0 0 160 100" style="width: 100%; height: auto; max-width: 220px; display: block; margin: 0 auto;">
+                                    <!-- Background track -->
+                                    <path d="M 20 80 A 60 60 0 1 1 140 80" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="10" stroke-linecap="round" />
+                                    <!-- Active glowing progress track -->
+                                    <path id="confidenceGaugePath" d="M 20 80 A 60 60 0 1 1 140 80" fill="none" stroke="url(#gauge-grad-green)" stroke-width="10" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="15" style="transition: stroke-dashoffset 1.5s ease-out; filter: drop-shadow(0 0 6px var(--neon-green));" />
+                                    <defs>
+                                        <linearGradient id="gauge-grad-green" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#10B981" />
+                                            <stop offset="100%" stop-color="#34D399" />
+                                        </linearGradient>
+                                        <linearGradient id="gauge-grad-amber" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#F59E0B" />
+                                            <stop offset="100%" stop-color="#FBBF24" />
+                                        </linearGradient>
+                                        <linearGradient id="gauge-grad-red" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#EF4444" />
+                                            <stop offset="100%" stop-color="#F87171" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div style="position: absolute; bottom: 15px; left: 0; right: 0; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                    <span id="confidence" style="font-size: 2rem; font-weight: 800; color: #fff; font-family: 'Outfit';">94.2%</span>
+                                    <span id="confidenceStatusBadge" style="font-size: 0.65rem; font-weight: 700; color: var(--neon-green); background: rgba(16, 185, 129, 0.1); padding: 2px 8px; border-radius: 20px; text-transform: uppercase; margin-top: 1px; border: 1px solid rgba(16, 185, 129, 0.2);">High</span>
+                                    <span style="font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.5px; font-weight: 700; margin-top: 6px; text-transform: uppercase;">Confidence Score: <span id="confidenceSubtext" style="color: var(--neon-green);">94.2%</span></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Progress bar (hidden for mockup visual style, but keeping to prevent JS crash) -->
-                        <div class="hidden">
-                            <div id="confidenceBar" style="width: 0%;"></div>
-                        </div>
-
-                        <!-- Custom Sliders representing Severity and Spread Risk -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-sm);">
-                                <span class="form-label" style="font-size: 0.65rem; margin-bottom: 4px;">Severity Index</span>
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-                                    <span style="font-size: 0.88rem; font-weight: 700; color: var(--text-main);" id="severityLabel">High</span>
-                                    <span style="font-size: 0.82rem; color: var(--neon-amber); font-weight: bold;">72%</span>
-                                </div>
-                                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                    <div style="height: 100%; width: 72%; background: linear-gradient(90deg, var(--neon-amber) 0%, var(--neon-red) 100%);"></div>
-                                </div>
-                            </div>
-                            
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: var(--radius-sm);">
-                                <span class="form-label" style="font-size: 0.65rem; margin-bottom: 4px;">Spread Risk</span>
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
-                                    <span style="font-size: 0.88rem; font-weight: 700; color: var(--text-main);" id="spreadLabel">Severe</span>
-                                    <span style="font-size: 0.82rem; color: var(--neon-red); font-weight: bold;">85%</span>
-                                </div>
-                                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                    <div style="height: 100%; width: 85%; background: var(--neon-red);"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <h5 class="form-label" style="color: var(--neon-red); font-weight: 700;">Root Cause Analysis</h5>
-                            <p id="cause"
-                                style="font-size: 0.92rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.25rem;">
-                                --</p>
-
-                            <h5 class="form-label" style="color: var(--neon-teal); font-weight: 700;">Agronomic Recommendation</h5>
-                            <p id="recommendation"
-                                style="font-size: 0.92rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.5rem;">
-                                --</p>
-
-                            <!-- Treatment Solutions Section -->
-                            <div
-                                style="background: transparent; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-                                <h5 class="heading-font"
-                                    style="font-size: 1.1rem; margin-bottom: 1.25rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-                                    <i data-lucide="flask-conical" style="width: 18px; color: var(--neon-green);"></i>
-                                    Therapeutic Solutions
-                                </h5>
-
-                                <!-- Organic Solution Container -->
-                                <div style="margin-bottom: 1.5rem;">
-                                    <div
-                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                        <div
-                                            style="width: 28px; height: 28px; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-                                            <i data-lucide="leaf" style="width: 14px; color: var(--neon-green);"></i>
+                        <!-- Impact Assessment Panel -->
+                        <div style="margin-bottom: 1.25rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem;">
+                            <h4 style="font-size: 0.75rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.75px; margin-bottom: 0.85rem; font-weight: 700;">Impact Assessment</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                <!-- Severity -->
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Severity:</span>
+                                    <div style="display: flex; align-items: center; gap: 8px; flex-grow: 1; justify-content: flex-end; padding-left: 2rem;">
+                                        <div style="width: 100px; height: 5px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+                                            <div id="severityBar" style="height: 100%; width: 68%; background: linear-gradient(90deg, var(--neon-green) 0%, var(--neon-amber) 100%); transition: width 1.2s ease-out;"></div>
                                         </div>
-                                        <h6 class="form-label" style="font-weight: 700; color: var(--neon-green); margin: 0; font-size: 0.75rem;">Organic Remedies</h6>
+                                        <span id="severityLabel" style="font-size: 0.8rem; font-weight: 700; color: var(--neon-amber); width: 35px; text-align: right;">68%</span>
                                     </div>
-                                    <!-- Beautiful solution cards will render inside here -->
-                                    <div id="organicSolution" style="padding-left: 2rem;">
-                                        --
+                                </div>
+                                <!-- Spread Risk -->
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Spread Risk:</span>
+                                    <span id="spreadLabel" style="font-size: 0.8rem; font-weight: 700; color: var(--neon-amber);">Moderate</span>
+                                </div>
+                                <!-- Impact Score -->
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">Impact Score:</span>
+                                    <span id="impactScoreVal" style="font-size: 0.8rem; font-weight: 700; color: #fff; font-family: 'Outfit';">7.2<span style="color: var(--text-muted); font-size: 0.65rem; font-weight: 400;"> / 10</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations Section -->
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem; font-weight: 600;">1. Recommended Actions:</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" id="recommendationsContainer">
+                                <!-- Organic Solution Card -->
+                                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 165px;">
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                            <div style="display: flex; align-items: center; gap: 4px; color: var(--neon-green);">
+                                                <i data-lucide="leaf" style="width: 12px; height: 12px;"></i>
+                                                <span style="font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Organic Solution</span>
+                                            </div>
+                                            <i data-lucide="more-vertical" style="width: 12px; color: var(--text-muted);"></i>
+                                        </div>
+                                        <h5 id="organicTitle" style="font-size: 0.78rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem;">Foliar Fungicide (Neem & Sulfur)</h5>
+                                        <p id="organicDesc" style="font-size: 0.68rem; color: var(--text-muted); line-height: 1.3; margin-bottom: 0.2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Description: Apply organic blend, improve airflow.</p>
+                                        <p id="organicFreq" style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;">Frequency: Weekly</p>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 0.5rem; margin-top: 0.5rem;">
+                                        <span id="organicPrice" style="font-family: 'Outfit'; font-size: 0.85rem; font-weight: 800; color: #fff;">$34.99</span>
+                                        <button class="sd-btn sd-btn-primary" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; border-radius: 4px; font-weight: 700;" onclick="alert('Item added to cart!')">Shop Now</button>
                                     </div>
                                 </div>
 
-                                <!-- Inorganic Solution Container -->
-                                <div style="margin-bottom: 1.5rem;">
-                                    <div
-                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                        <div
-                                            style="width: 28px; height: 28px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-                                            <i data-lucide="flask-round" style="width: 14px; color: var(--neon-blue);"></i>
+                                <!-- Chemical Treatment Card -->
+                                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 165px;">
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                            <div style="display: flex; align-items: center; gap: 4px; color: var(--neon-teal);">
+                                                <i data-lucide="flask-conical" style="width: 12px; height: 12px;"></i>
+                                                <span style="font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Chemical</span>
+                                            </div>
+                                            <i data-lucide="more-vertical" style="width: 12px; color: var(--text-muted);"></i>
                                         </div>
-                                        <h6 class="form-label" style="font-weight: 700; color: var(--neon-blue); margin: 0; font-size: 0.75rem;">Chemical Treatment</h6>
+                                        <h5 id="chemicalTitle" style="font-size: 0.78rem; font-weight: 700; color: #fff; margin-bottom: 0.25rem;">Tilt 250 EC (Propiconazole)</h5>
+                                        <p id="chemicalDesc" style="font-size: 0.68rem; color: var(--text-muted); line-height: 1.3; margin-bottom: 0.2rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Description: Targeted chemical control. Caution: Apply early morning.</p>
+                                        <p id="chemicalUse" style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;">Use: 300ml/ha</p>
                                     </div>
-                                    <!-- Chemical remedy cards will render inside here -->
-                                    <div id="inorganicSolution" style="padding-left: 2rem;">
-                                        --
-                                    </div>
-                                </div>
-
-                                <!-- Prevention Tips -->
-                                <div>
-                                    <div
-                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                        <div
-                                            style="width: 28px; height: 28px; background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-                                            <i data-lucide="shield-check" style="width: 14px; color: var(--neon-amber);"></i>
-                                        </div>
-                                        <h6 class="form-label" style="font-weight: 700; color: var(--neon-amber); margin: 0; font-size: 0.75rem;">Prevention Protocols</h6>
-                                    </div>
-                                    <div id="prevention" style="padding-left: 2rem;">
-                                        --
-                                    </div>
-                                </div>
-
-                                <!-- Disclaimer Section -->
-                                <div
-                                    style="margin-top: 1.75rem; padding: 1.15rem; background: rgba(59, 130, 246, 0.03); border: 1px solid rgba(59, 130, 246, 0.15); border-left: 4px solid var(--neon-blue); border-radius: var(--radius-sm);">
-                                    <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
-                                        <i data-lucide="info"
-                                            style="width: 18px; height: 18px; color: var(--neon-blue); flex-shrink: 0; margin-top: 2px;"></i>
-                                        <div>
-                                            <h6
-                                                style="margin: 0 0 0.25rem 0; font-weight: 700; color: var(--text-main); font-size: 0.85rem;">
-                                                Diagnostic Alert Disclaimer
-                                            </h6>
-                                            <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: var(--text-muted);">
-                                                While our AI provides high-precision crop advice, we recommend consulting with regional certified agricultural professionals before chemical deployments.
-                                            </p>
-                                        </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 0.5rem; margin-top: 0.5rem;">
+                                        <span id="chemicalPrice" style="font-family: 'Outfit'; font-size: 0.85rem; font-weight: 800; color: #fff;">$48.50</span>
+                                        <button class="sd-btn" style="padding: 0.25rem 0.6rem; font-size: 0.65rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #fff;" onclick="alert('Viewing treatment details...')">Details</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>     
-                
-                <div class="mt-4" style="display: flex; gap: 0.5rem;">
-                            <button class="sd-btn"
-                                style="flex: 1; font-size: 0.8rem; background: transparent; border: 1px solid var(--border-color);"
-                                onclick="resetLab()">
-                                <i data-lucide="refresh-cw" style="width: 14px;"></i> New Scan
-                            </button>
-                            <button class="sd-btn"
-                                style="flex: 1; font-size: 0.8rem; background: var(--bg-main); border: 1px solid var(--border-color);"
-                                onclick="toggleHistory()">
-                                <i data-lucide="history" style="width: 14px;"></i> View Records
-                            </button>
+
+                    <!-- Right Column: Neural Scanning HUD Viewport -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="sd-card" style="margin: 0; padding: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); position: relative; height: 535px; background: rgba(11, 15, 25, 0.4);">
+                            <!-- The HUD Scanning Box -->
+                            <div class="scanning-viewport" id="dropZone" onclick="document.getElementById('fileInput').click()" style="height: 100%; border: none; cursor: pointer; background: transparent; display: flex; align-items: center; justify-content: center; position: relative;">
+                                <!-- Grid background -->
+                                <div class="scanning-grid" style="position: absolute; width: 120%; height: 120%; background-image: linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                                
+                                <!-- Bounding Coordinates Overlay (futuristic text) -->
+                                <div style="position: absolute; left: 15px; top: 15px; display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 0.65rem; color: var(--neon-green); background: rgba(10, 15, 26, 0.75); backdrop-filter: blur(8px); border: 1px solid rgba(16, 185, 129, 0.25); padding: 6px 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(0,0,0,0.5); pointer-events: none; text-shadow: 0 0 2px rgba(16, 185, 129, 0.4); z-index: 5;">
+                                    <span>SYS_INIT: OK</span>
+                                    <span>RESOLUTION: 4K_RAW</span>
+                                    <span>COORD_X: 42.083</span>
+                                    <span>COORD_Y: 71.942</span>
+                                </div>
+                                <div style="position: absolute; right: 15px; top: 15px; text-align: right; display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 0.65rem; color: var(--neon-green); background: rgba(10, 15, 26, 0.75); backdrop-filter: blur(8px); border: 1px solid rgba(16, 185, 129, 0.25); padding: 6px 10px; border-radius: 6px; box-shadow: 0 0 10px rgba(0,0,0,0.5); pointer-events: none; text-shadow: 0 0 2px rgba(16, 185, 129, 0.4); z-index: 5;">
+                                    <span>SPECTRUM: NIR_RGB</span>
+                                    <span>BLOCK_REF: B-12</span>
+                                    <span>LATENCY: 12ms</span>
+                                    <span>MATRIX: [83640 / 2700]</span>
+                                </div>
+
+                                <!-- Floating Scan Details Overlay -->
+                                <div style="position: absolute; bottom: 15px; right: 15px; width: 220px; background: rgba(10, 15, 26, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 0.85rem; font-family: 'Inter', sans-serif; box-shadow: 0 8px 32px rgba(0,0,0,0.5); z-index: 10; pointer-events: none;">
+                                    <h5 style="font-size: 0.7rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.75px; margin-bottom: 0.5rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px;">Scan Details</h5>
+                                    <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.7rem;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: var(--text-muted);">Leaf Type</span>
+                                            <span id="hudLeafType" style="color: #fff; font-weight: 600;">Wheat</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: var(--text-muted);">Location</span>
+                                            <span id="hudLocation" style="color: #fff; font-weight: 600;">Block B-12</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: var(--text-muted);">Scan ID</span>
+                                            <span id="hudScanId" style="color: #fff; font-weight: 600; font-family: monospace;">#AD23908</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="color: var(--text-muted);">Status</span>
+                                            <span id="hudStatus" style="color: var(--neon-green); font-weight: 700;">Analyzed (Green)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Contextual Replace Pill (Clearly visible when image is active) -->
+                                <div id="uploadReplacePill" style="display: none; position: absolute; top: 15px; left: 50%; transform: translateX(-50%); z-index: 15; background: rgba(10, 15, 26, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.35); box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); padding: 8px 16px; border-radius: 30px; align-items: center; gap: 8px; color: var(--neon-green); font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.75px; pointer-events: none; text-shadow: 0 0 4px rgba(16, 185, 129, 0.4); transition: all 0.3s ease;">
+                                    <i data-lucide="cloud-upload" style="width: 14px; height: 14px;"></i>
+                                    <span>Click viewport to replace leaf image</span>
+                                </div>
+
+                                <!-- Idle Upload View -->
+                                <div id="dropZoneIdle" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5; background: rgba(10, 15, 26, 0.85); backdrop-filter: blur(12px); border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 2rem; box-shadow: 0 8px 32px rgba(0,0,0,0.5);">
+                                    <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.08); border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--neon-green); box-shadow: 0 0 15px rgba(16, 185, 129, 0.05);">
+                                        <i data-lucide="cloud-upload" style="width: 28px; height: 28px;"></i>
+                                    </div>
+                                    <h4 style="font-size: 1.1rem; font-weight: 700; color: #fff;">Drop leaf image here</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">or click to upload from local drive</p>
+                                    <span style="font-size: 0.65rem; color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 4px; margin-top: 1rem;">Formats: JPG, PNG, WEBP</span>
+                                </div>
+
+                                <!-- The actual leaf target container (displays leaf image & bounding boxes) -->
+                                <div id="scanningViewport" style="display: flex; position: absolute; width: 100%; height: 100%; align-items: center; justify-content: center; overflow: hidden; background: #000;">
+                                    <img id="preview" src="../assets/img/leaf_rust_sample.png" alt="Target Leaf" style="width: 100%; height: 100%; object-fit: cover;">
+                                    
+                                    <!-- Scanning Laser Line -->
+                                    <div class="laser-scan-line" id="laserLine" style="position: absolute; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent 10%, var(--neon-green) 50%, transparent 90%); box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green-glow); pointer-events: none; z-index: 5;"></div>
+
+                                    <!-- Bounding Boxes Overlay (Rust spots highlights) -->
+                                    <div id="hudBoundingBoxes" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; pointer-events: none; opacity: 1; transition: opacity 0.5s ease-in-out;">
+                                        <!-- Box 1 -->
+                                        <div class="bounding-box-active" style="position: absolute; left: 55%; top: 35%; width: 50px; height: 50px; border: 2px solid var(--neon-teal); box-shadow: 0 0 10px var(--neon-teal-glow);">
+                                            <span style="position: absolute; top: -16px; left: -2px; font-family: monospace; font-size: 0.5rem; font-weight: 700; color: var(--bg-main); background: var(--neon-teal); padding: 1px 4px; border-radius: 2px; text-transform: uppercase; white-space: nowrap;">Rust Detection</span>
+                                        </div>
+                                        <!-- Box 2 -->
+                                        <div class="bounding-box-active" style="position: absolute; left: 58%; top: 60%; width: 60px; height: 60px; border: 2px solid var(--neon-teal); box-shadow: 0 0 10px var(--neon-teal-glow);">
+                                            <span style="position: absolute; bottom: -16px; right: -2px; font-family: monospace; font-size: 0.5rem; font-weight: 700; color: var(--bg-main); background: var(--neon-teal); padding: 1px 4px; border-radius: 2px; text-transform: uppercase; white-space: nowrap;">Rust Detection</span>
+                                        </div>
+                                        <!-- Box 3 -->
+                                        <div class="bounding-box-active" style="position: absolute; left: 70%; top: 28%; width: 45px; height: 45px; border: 2px solid var(--neon-teal); box-shadow: 0 0 10px var(--neon-teal-glow);"></div>
+                                        <!-- Box 4 -->
+                                        <div class="bounding-box-active" style="position: absolute; left: 73%; top: 43%; width: 55px; height: 55px; border: 2px solid var(--neon-teal); box-shadow: 0 0 10px var(--neon-teal-glow);"></div>
+                                    </div>
+
+                                    <!-- Scanning text label -->
+                                    <div class="scanning-label" id="scanningLabel" style="position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%); background: rgba(10, 15, 26, 0.85); backdrop-filter: blur(8px); border: 1px solid var(--neon-green); color: var(--neon-green); padding: 6px 18px; border-radius: 20px; font-family: monospace; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); z-index: 6; pointer-events: none; text-shadow: 0 0 4px rgba(16, 185, 129, 0.6); transition: all 0.3s ease;">Targeting Leaf...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Functional Form Controls inside card -->
+                        <div class="sd-card" style="margin: 0; padding: 1.25rem; border-radius: 12px; background: rgba(11, 15, 25, 0.4); display: flex; flex-direction: column; gap: 0.85rem;">
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <div style="flex-grow: 1;">
+                                    <label class="form-label" style="font-size: 0.65rem; margin-bottom: 4px;">Mock Input File Path</label>
+                                    <input type="text" id="imagePath" class="sd-input" value="assets/img/leaf_rust_sample.png" style="padding: 0.45rem 0.85rem; font-family: monospace; font-size: 0.75rem; height: 38px; border-radius: 6px;">
+                                </div>
+                                <div style="margin-top: 18px;">
+                                    <button onclick="checkDisease()" id="analyzeBtn" class="sd-btn sd-btn-primary" style="min-height: 38px; border-radius: 6px; padding: 0 1.25rem; font-size: 0.8rem; white-space: nowrap; width: 100%;">
+                                        <i data-lucide="sparkles" style="width: 14px;"></i> Run Diagnostics
+                                    </button>
+                                </div>
+                            </div>
+                            <input type="file" id="fileInput" class="hidden" accept="image/*" style="display: none;">
                         </div>
                     </div>
                 </div>
+
+                <!-- Accordion Card containing the detailed technical logs & results for complete backwards compatibility -->
+                <div class="sd-card" id="resultSection" style="margin-top: 1rem; padding: 1.5rem; border-radius: 16px; background: rgba(11, 15, 25, 0.4); border: 1px solid rgba(255,255,255,0.06); display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        <h4 style="font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="terminal" style="width: 16px; color: var(--neon-teal);"></i>
+                            Detailed Agronomic Spec Logs
+                        </h4>
+                        <div id="statusBadge" class="badge" style="font-size: 0.7rem;">Status: Ready</div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <h5 class="form-label" style="color: var(--neon-red); font-weight: 700; font-size: 0.75rem;">Root Cause Analysis</h5>
+                            <p id="cause" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main); margin-bottom: 1rem;">No diagnostic run completed.</p>
+                            
+                            <h5 class="form-label" style="color: var(--neon-teal); font-weight: 700; font-size: 0.75rem;">Agronomic Protocol</h5>
+                            <p id="recommendation" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted);">Awaiting neural scan input...</p>
+                        </div>
+                        <div>
+                            <h5 class="form-label" style="color: var(--neon-green); font-weight: 700; font-size: 0.75rem; margin-bottom: 0.5rem;">Therapeutic Pipeline</h5>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 6px;">
+                                    <span style="font-size: 0.65rem; color: var(--neon-green); font-weight: 700; display: block; margin-bottom: 2px;">ORGANIC REMEDY LOG:</span>
+                                    <div id="organicSolution" style="font-size: 0.75rem; color: var(--text-muted);">--</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 6px;">
+                                    <span style="font-size: 0.65rem; color: var(--neon-blue); font-weight: 700; display: block; margin-bottom: 2px;">CHEMICAL REMEDY LOG:</span>
+                                    <div id="inorganicSolution" style="font-size: 0.75rem; color: var(--text-muted);">--</div>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 6px;">
+                                    <span style="font-size: 0.65rem; color: var(--neon-amber); font-weight: 700; display: block; margin-bottom: 2px;">PREVENTION TIPS:</span>
+                                    <div id="prevention" style="font-size: 0.75rem; color: var(--text-muted);">--</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden back compatibility hooks -->
+                    <div style="display: none;">
+                        <div id="confidenceBar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Cockpit Secondary Actions Row -->
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button class="sd-btn" style="flex: 1; font-size: 0.8rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); height: 42px; border-radius: 8px;" onclick="resetLab()">
+                        <i data-lucide="refresh-cw" style="width: 14px;"></i> Clear Canvas / New Scan
+                    </button>
+                    <button class="sd-btn" style="flex: 1; font-size: 0.8rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--neon-green); height: 42px; border-radius: 8px;" onclick="toggleHistory()">
+                        <i data-lucide="history" style="width: 14px;"></i> Show / Hide Digital Lab Records
+                    </button>
+                </div>
+            </div>
 
                 <div id="historyHeader" class="section-header hidden"
                     style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
@@ -341,10 +525,28 @@
     </div>
 
     <script src="../services/api.js"></script>
+    <script src="notifications.js"></script>
     <script src="disease.js"></script>
     <script>
         lucide.createIcons();
         function logout() { localStorage.removeItem('user'); window.location.href = '../auth/login.html'; }
+        
+        // Contextual Prompt Toggle function
+        function toggleUploadPrompt(hasImage) {
+            const idlePrompt = document.getElementById('dropZoneIdle');
+            const replacePill = document.getElementById('uploadReplacePill');
+            if (hasImage) {
+                idlePrompt.style.display = 'none';
+                replacePill.style.display = 'flex';
+            } else {
+                idlePrompt.style.display = 'flex';
+                replacePill.style.display = 'none';
+            }
+        }
+
+        // Initialize display state since default sample image is loaded
+        toggleUploadPrompt(true);
+
         document.getElementById('fileInput').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
@@ -353,7 +555,7 @@
                     const preview = document.getElementById('preview');
                     preview.src = event.target.result;
                     preview.style.display = 'block';
-                    document.getElementById('dropZoneIdle').style.display = 'none';
+                    toggleUploadPrompt(true);
                     document.getElementById('scanningViewport').style.display = 'flex';
                 }
                 reader.readAsDataURL(file);
@@ -361,11 +563,17 @@
             }
         });
         function resetLab() {
-            document.getElementById('resultSection').classList.add('hidden');
-            document.getElementById('preview').style.display = 'none';
-            document.getElementById('scanningViewport').style.display = 'none';
-            document.getElementById('dropZoneIdle').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('preview').src = '../assets/img/leaf_rust_sample.png';
+            document.getElementById('preview').style.display = 'block';
+            toggleUploadPrompt(true);
+            document.getElementById('scanningViewport').style.display = 'flex';
             document.getElementById('fileInput').value = '';
+            document.getElementById('imagePath').value = 'assets/img/leaf_rust_sample.png';
+            
+            if (typeof resetPremiumHUD === 'function') {
+                resetPremiumHUD();
+            }
         }
     </script>
 </body>

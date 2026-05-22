@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('dispName').textContent = user.name || 'SADIMS Farmer';
     document.getElementById('dispMobile').textContent = user.mobileNumber || 'No Mobile Registered';
 
+    const headerUserNameEl = document.getElementById('headerUserName');
+    if (headerUserNameEl) {
+        headerUserNameEl.textContent = user.name || 'Farmer';
+    }
+
     document.getElementById('profName').value = user.name || '';
     document.getElementById('profMobile').value = user.mobileNumber || '';
     document.getElementById('profRole').value = user.role === 'FARMER' ? 'Verified Farmer' : 'System Administrator';
@@ -32,6 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('passForm');
         form.classList.toggle('hidden');
     });
+
+    // 5. Auto-expand change password if query param is set
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('changePassword') === 'true') {
+        const form = document.getElementById('passForm');
+        if (form) {
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 });
 
 async function updatePassword() {

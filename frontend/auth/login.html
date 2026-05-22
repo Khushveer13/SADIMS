@@ -6,7 +6,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SADIMS - Login</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* Cyber Backdrop Grid & Scanline */
+        .cyber-grid-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .cyber-grid {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center;
+        }
+        .cyber-scanline {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to bottom, rgba(16, 185, 129, 0), rgba(16, 185, 129, 0.15) 50%, rgba(16, 185, 129, 0));
+            position: absolute;
+            animation: scan 6s linear infinite;
+        }
+        @keyframes scan {
+            from { top: -100px; }
+            to { top: 100%; }
+        }
+
+        /* Cyber Background & Leaf Backdrop override */
+        .auth-wrapper {
+            background: radial-gradient(circle at center, rgba(11, 15, 25, 0.45) 0%, rgba(11, 15, 25, 0.92) 100%), 
+                        url('../assets/img/auth_cyber_bg.png') no-repeat center center !important;
+            background-size: cover !important;
+            background-attachment: fixed !important;
+        }
+
+        /* Elevating Card Visual Identity with Water Glass Transparency */
+        .auth-box .sd-card {
+            background: rgba(10, 15, 26, 0.45) !important;
+            backdrop-filter: blur(28px) saturate(200%) !important;
+            -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+            border: 1px solid rgba(16, 185, 129, 0.25) !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 
+                        inset 0 0 25px rgba(16, 185, 129, 0.04), 
+                        0 0 40px rgba(16, 185, 129, 0.05) !important;
+            padding: 2.5rem !important;
+            border-radius: 16px !important;
+            position: relative;
+            overflow: visible;
+        }
+        .auth-box .sd-card:hover {
+            border-color: rgba(16, 185, 129, 0.5) !important;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 
+                        0 0 40px rgba(16, 185, 129, 0.15), 
+                        inset 0 0 25px rgba(16, 185, 129, 0.08) !important;
+            background: rgba(10, 15, 26, 0.5) !important;
+        }
+
+
+        /* Cyber Corner Bracket Decorations */
+        .cyber-corner {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-color: var(--neon-green);
+            border-style: solid;
+            pointer-events: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        .corner-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+        .corner-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+        .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+        .corner-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+        
+        .auth-box .sd-card:hover .cyber-corner {
+            filter: drop-shadow(0 0 4px var(--neon-green));
+            opacity: 1;
+        }
+
+        /* Futuristic Auth Header Logo */
+        .auth-logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+        .auth-logo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.1), inset 0 0 5px rgba(16, 185, 129, 0.05);
+                border-color: rgba(16, 185, 129, 0.25);
+            }
+            to {
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.35), inset 0 0 10px rgba(16, 185, 129, 0.15);
+                border-color: var(--neon-green);
+            }
+        }
+
+        .auth-header h1 {
+            font-size: 2.5rem !important;
+            font-weight: 800;
+            letter-spacing: 2px !important;
+            background: linear-gradient(135deg, #FFF 30%, var(--neon-green) 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            margin-bottom: 0.25rem !important;
+            filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.15));
+        }
+
+        /* Cyber-HUD Input Fields */
+        .input-hud-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .input-hud-icon {
+            position: absolute;
+            left: 1.15rem;
+            color: var(--text-muted);
+            width: 18px;
+            height: 18px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .input-hud-field {
+            padding-left: 2.75rem !important;
+            background: rgba(10, 15, 26, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        .input-hud-field:focus {
+            border-color: var(--neon-green) !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2) !important;
+            background: rgba(10, 15, 26, 0.85) !important;
+        }
+        .input-hud-container:focus-within .input-hud-icon {
+            color: var(--neon-green);
+            filter: drop-shadow(0 0 5px var(--neon-green-glow));
+        }
+
+        /* Button Hover Glint Interaction */
+        .sd-btn-primary {
+            position: relative;
+            overflow: hidden;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+        }
+        .sd-btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.75s;
+        }
+        .sd-btn-primary:hover::after {
+            left: 150%;
+            transition: 0.75s;
+        }
+
+        /* High-Tech Social Login HUD */
+        .social-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0 1rem 0;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.8;
+        }
+        .social-divider::before, .social-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+        .social-divider:not(:empty)::before {
+            margin-right: .75rem;
+        }
+        .social-divider:not(:empty)::after {
+            margin-left: .75rem;
+        }
+        .social-auth-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .social-btn {
+            padding: 0.75rem 1rem !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: var(--radius-sm);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer;
+        }
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.06) !important;
+            transform: translateY(-1.5px);
+        }
+        .social-btn.btn-google:hover {
+            border-color: rgba(234, 67, 53, 0.35) !important;
+            box-shadow: 0 0 12px rgba(234, 67, 53, 0.15);
+        }
+        .social-btn.btn-facebook:hover {
+            border-color: rgba(24, 119, 242, 0.35) !important;
+            box-shadow: 0 0 12px rgba(24, 119, 242, 0.15);
+        }
+        .social-icon {
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .social-btn:hover .social-icon {
+            transform: scale(1.08);
+        }
+
+        /* High-Tech Popups Modals */
         .modal {
             display: none;
             position: fixed;
@@ -15,21 +261,22 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            background-color: rgba(6, 9, 15, 0.65) !important;
         }
 
         .modal-content {
-            background: rgba(17, 24, 39, 0.95) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(10, 15, 26, 0.95) !important;
+            backdrop-filter: blur(25px) !important;
+            -webkit-backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(16, 185, 129, 0.25) !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(16, 185, 129, 0.1) !important;
+            border-radius: 16px !important;
+            padding: 2.5rem !important;
             margin: 10% auto;
-            padding: 2.5rem;
-            border-radius: var(--radius-lg);
             width: 90%;
             max-width: 500px;
-            box-shadow: var(--shadow-lg), 0 0 30px rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--border-color) !important;
             position: relative;
             color: var(--text-main) !important;
             animation: fadeIn 0.3s ease;
@@ -38,7 +285,7 @@
         .close-modal {
             position: absolute;
             right: 1.5rem;
-            top: 1rem;
+            top: 1.25rem;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-muted);
@@ -49,54 +296,133 @@
             color: var(--primary);
             text-shadow: 0 0 8px var(--neon-green-glow);
         }
+
+        /* Modal Lists styling */
+        .modal-content ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .modal-content li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .modal-content li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 6px;
+            height: 6px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--neon-green);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 
 <body>
     <div class="auth-wrapper">
+        <!-- Tech grid overlays -->
+        <div class="cyber-grid-container">
+            <div class="cyber-grid"></div>
+            <div class="cyber-scanline"></div>
+        </div>
+
         <div class="auth-box">
             <div class="auth-header">
+                <div class="auth-logo-container">
+                    <div class="auth-logo-icon">
+                        <i data-lucide="leaf"></i>
+                    </div>
+                </div>
                 <h1>SADIMS</h1>
                 <p>Smart Agriculture & Disease Management</p>
             </div>
 
             <div class="sd-card">
-                <h3 class="mb-4 text-center" style="font-size: 1.5rem;">Welcome Back</h3>
+                <!-- Tech Corners -->
+                <div class="cyber-corner corner-tl"></div>
+                <div class="cyber-corner corner-tr"></div>
+                <div class="cyber-corner corner-bl"></div>
+                <div class="cyber-corner corner-br"></div>
+
+                <h3 class="mb-4 text-center" style="font-size: 1.5rem; color: #fff; font-weight: 700; letter-spacing: 0.5px;">Welcome Back</h3>
+                
                 <form id="loginForm">
                     <div class="form-group">
                         <label class="form-label" for="mobile">Mobile Number</label>
-                        <input type="text" id="mobile" class="sd-input" required placeholder="Enter mobile number">
+                        <div class="input-hud-container">
+                            <i data-lucide="phone" class="input-hud-icon"></i>
+                            <input type="text" id="mobile" class="sd-input input-hud-field" required placeholder="Enter mobile number">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" class="sd-input" required placeholder="Enter password">
+                        <div class="input-hud-container">
+                            <i data-lucide="lock" class="input-hud-icon"></i>
+                            <input type="password" id="password" class="sd-input input-hud-field" required placeholder="Enter password">
+                        </div>
                     </div>
 
-                    <button type="submit" class="sd-btn sd-btn-primary" style="width: 100%;">
+                    <button type="submit" class="sd-btn sd-btn-primary" style="width: 100%; margin-top: 1rem;">
                         Login to Dashboard
                     </button>
+
+                    <div class="social-divider">
+                        <span>Secure Unified Port Auth</span>
+                    </div>
+
+                    <div class="social-auth-group">
+                        <button type="button" class="social-btn btn-google" onclick="handleSocialLogin('Google')">
+                            <svg class="social-icon" viewBox="0 0 24 24" width="16" height="16">
+                                <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.61 14.98 1 12 1 7.35 1 3.39 3.67 1.48 7.56l3.86 3C6.27 7.59 8.87 5.04 12 5.04z"/>
+                                <path fill="#4285F4" d="M23.45 12.27c0-.82-.07-1.61-.21-2.38H12v4.51h6.43c-.28 1.46-1.1 2.69-2.34 3.52v2.93h3.78c2.22-2.04 3.58-5.04 3.58-8.58z"/>
+                                <path fill="#FBBC05" d="M5.34 14.28c-.24-.72-.38-1.49-.38-2.28s.14-1.56.38-2.28l-3.86-3C.56 8.56 0 10.22 0 12s.56 3.44 1.48 5.28l3.86-3z"/>
+                                <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.92l-3.78-2.93c-1.05.7-2.4 1.13-4.18 1.13-3.13 0-5.73-2.55-6.66-5.52l-3.86 3C3.39 20.33 7.35 23 12 23z"/>
+                            </svg>
+                            <span>Google</span>
+                        </button>
+                        <button type="button" class="social-btn btn-facebook" onclick="handleSocialLogin('Facebook')">
+                            <svg class="social-icon" viewBox="0 0 24 24" width="16" height="16" fill="#1877F2">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            <span>Facebook</span>
+                        </button>
+                    </div>
 
                     <div class="mt-4 text-center">
                         <p style="font-size: 0.85rem; color: var(--text-muted);">
                             New Farmer? <a href="register.html"
-                                style="color: var(--primary); font-weight: 600; text-decoration: none;">Register
-                                here</a>
+                                style="color: var(--primary); font-weight: 600; text-decoration: none; transition: text-shadow 0.2s;" 
+                                onmouseover="this.style.textShadow='0 0 6px var(--neon-green-glow)'" 
+                                onmouseout="this.style.textShadow=''">Register here</a>
                         </p>
                     </div>
 
                     <p id="errorMsg" class="badge badge-danger text-center mt-4 hidden"
                         style="display: block; width: 100%;"></p>
                 </form>
+                
                 <div class="mt-4 text-center"
-                    style="display: flex; justify-content: center; gap: 15px; font-size: 0.75rem; opacity: 0.7;">
+                    style="display: flex; justify-content: center; gap: 15px; font-size: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem;">
                     <a href="javascript:void(0)" onclick="toggleAbout(true)"
-                        style="color: var(--primary); text-decoration: none;">About Us</a>
+                        style="color: var(--primary); text-decoration: none; font-weight: 500; transition: text-shadow 0.2s;"
+                        onmouseover="this.style.textShadow='0 0 6px var(--neon-green-glow)'" onmouseout="this.style.textShadow=''">About Us</a>
                     <a href="javascript:void(0)" onclick="toggleTerms(true)"
-                        style="color: var(--primary); text-decoration: none;">Terms</a>
+                        style="color: var(--primary); text-decoration: none; font-weight: 500; transition: text-shadow 0.2s;"
+                        onmouseover="this.style.textShadow='0 0 6px var(--neon-green-glow)'" onmouseout="this.style.textShadow=''">Terms</a>
                     <a href="javascript:void(0)" onclick="togglePrivacy(true)"
-                        style="color: var(--primary); text-decoration: none;">Privacy</a>
+                        style="color: var(--primary); text-decoration: none; font-weight: 500; transition: text-shadow 0.2s;"
+                        onmouseover="this.style.textShadow='0 0 6px var(--neon-green-glow)'" onmouseout="this.style.textShadow=''">Privacy</a>
                     <a href="javascript:void(0)" onclick="toggleHelp(true)"
-                        style="color: var(--primary); text-decoration: none;">Help</a>
+                        style="color: var(--primary); text-decoration: none; font-weight: 500; transition: text-shadow 0.2s;"
+                        onmouseover="this.style.textShadow='0 0 6px var(--neon-green-glow)'" onmouseout="this.style.textShadow=''">Help</a>
                 </div>
                 <div class="mt-3 text-center" style="font-size: 0.65rem; color: var(--text-muted); opacity: 0.6;">
                     SADIMS v1.0 | © 2026 Academic Use Only
@@ -107,19 +433,21 @@
         <!-- About Us Modal -->
         <div id="aboutModal" class="modal">
             <div class="modal-content">
+                <div class="cyber-corner corner-tl"></div>
+                <div class="cyber-corner corner-tr"></div>
+                <div class="cyber-corner corner-bl"></div>
+                <div class="cyber-corner corner-br"></div>
                 <span class="close-modal" onclick="toggleAbout(false)">&times;</span>
-                <h3 class="heading-font mb-4" style="color: var(--primary);">About SADIMS</h3>
-                <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
-                    <p><strong>SADIMS</strong> (Smart Agro-Defence Intelligence & Monitoring System) is a comprehensive
-                        platform designed to modernize agricultural management.</p>
-                    <p class="mt-2"><strong>Purpose:</strong> To empower farmers with AI-driven disease detection and
-                        real-time field monitoring to minimize crop loss and maximize yields.</p>
-                    <p class="mt-2"><strong>Target Users:</strong> Farmers seeking precision agriculture tools and
-                        Administrators managing regional agricultural portfolios.</p>
+                <h3 class="heading-font mb-4" style="color: var(--primary); text-shadow: 0 0 10px var(--neon-green-glow); display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="info" style="width: 20px; color: var(--neon-green);"></i> About SADIMS
+                </h3>
+                <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main);">
+                    <p><strong>SADIMS</strong> (Smart Agro-Defence Intelligence & Monitoring System) is a comprehensive platform designed to modernize agricultural management.</p>
+                    <p class="mt-2"><strong>Purpose:</strong> To empower farmers with AI-driven disease detection and real-time field monitoring to minimize crop loss and maximize yields.</p>
+                    <p class="mt-2"><strong>Target Users:</strong> Farmers seeking precision agriculture tools and Administrators managing regional agricultural portfolios.</p>
                     <div class="mt-4 p-3"
-                        style="background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 0.8rem; border-left: 4px solid var(--accent); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-                        <strong style="color: var(--neon-green);">Academic Project:</strong> This system is developed as an academic project for
-                        demonstration purposes. AI predictions are simulated for research software modeling.
+                        style="background: rgba(16, 185, 129, 0.05); border-radius: 8px; font-size: 0.8rem; border-left: 4px solid var(--accent); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); color: var(--text-muted);">
+                        <strong style="color: var(--neon-green);">Academic Project:</strong> This system is developed as an academic project for demonstration purposes. AI predictions are simulated for research software modeling.
                     </div>
                 </div>
             </div>
@@ -128,19 +456,19 @@
         <!-- Terms Modal -->
         <div id="termsModal" class="modal">
             <div class="modal-content">
+                <div class="cyber-corner corner-tl"></div>
+                <div class="cyber-corner corner-tr"></div>
+                <div class="cyber-corner corner-bl"></div>
+                <div class="cyber-corner corner-br"></div>
                 <span class="close-modal" onclick="toggleTerms(false)">&times;</span>
-                <h3 class="heading-font mb-4" style="color: var(--primary);">Terms & Conditions</h3>
-                <div
-                    style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); max-height: 300px; overflow-y: auto; padding-right: 10px;">
-                    <p><strong>1. Academic Use Only</strong><br>SADIMS is a research and academic demonstration
-                        platform. It is not intended for commercial agricultural operations.</p>
-                    <p class="mt-2"><strong>2. User Responsibility</strong><br>Users are responsible for the data they
-                        upload. Any field decisions should be verified with professional agricultural consultants.</p>
-                    <p class="mt-2"><strong>3. No Legal Guarantees</strong><br>AI predictions and weather data are for
-                        informational purposes only. The developers assume no liability for crop outcomes or financial
-                        losses.</p>
-                    <p class="mt-2"><strong>4. Data Usage</strong><br>Uploaded images and farm data are used solely for
-                        platform demonstration and system training within the academic scope.</p>
+                <h3 class="heading-font mb-4" style="color: var(--primary); text-shadow: 0 0 10px var(--neon-green-glow); display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="file-text" style="width: 20px; color: var(--neon-green);"></i> Terms & Conditions
+                </h3>
+                <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); max-height: 300px; overflow-y: auto; padding-right: 10px;">
+                    <p><strong style="color: var(--text-main);">1. Academic Use Only</strong><br>SADIMS is a research and academic demonstration platform. It is not intended for commercial agricultural operations.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">2. User Responsibility</strong><br>Users are responsible for the data they upload. Any field decisions should be verified with professional agricultural consultants.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">3. No Legal Guarantees</strong><br>AI predictions and weather data are for informational purposes only. The developers assume no liability for crop outcomes or financial losses.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">4. Data Usage</strong><br>Uploaded images and farm data are used solely for platform demonstration and system training within the academic scope.</p>
                 </div>
             </div>
         </div>
@@ -148,18 +476,19 @@
         <!-- Privacy Modal -->
         <div id="privacyModal" class="modal">
             <div class="modal-content">
+                <div class="cyber-corner corner-tl"></div>
+                <div class="cyber-corner corner-tr"></div>
+                <div class="cyber-corner corner-bl"></div>
+                <div class="cyber-corner corner-br"></div>
                 <span class="close-modal" onclick="togglePrivacy(false)">&times;</span>
-                <h3 class="heading-font mb-4" style="color: var(--primary);">Privacy Policy</h3>
+                <h3 class="heading-font mb-4" style="color: var(--primary); text-shadow: 0 0 10px var(--neon-green-glow); display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="shield" style="width: 20px; color: var(--neon-green);"></i> Privacy Policy
+                </h3>
                 <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted);">
-                    <p><strong>1. Data Collection</strong><br>We only collect your <strong>mobile phone number</strong>
-                        for the sole purpose of secure account authentication and login.</p>
-                    <p class="mt-2"><strong>2. No Email Usage</strong><br>SADIMS does not require or store your email
-                        address. All platform communication is handled through the system interface or mobile
-                        connection.</p>
-                    <p class="mt-2"><strong>3. Academic Storage</strong><br>All user data is stored strictly for system
-                        demonstration and academic purposes related to project research.</p>
-                    <p class="mt-2"><strong>4. No Third-Party Sharing</strong><br>Your personal information is never
-                        shared, sold, or distributed to any third-party services or commercial entities.</p>
+                    <p><strong style="color: var(--text-main);">1. Data Collection</strong><br>We only collect your <strong>mobile phone number</strong> for the sole purpose of secure account authentication and login.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">2. No Email Usage</strong><br>SADIMS does not require or store your email address. All platform communication is handled through the system interface or mobile connection.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">3. Academic Storage</strong><br>All user data is stored strictly for system demonstration and academic purposes related to project research.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">4. No Third-Party Sharing</strong><br>Your personal information is never shared, sold, or distributed to any third-party services or commercial entities.</p>
                 </div>
             </div>
         </div>
@@ -167,59 +496,83 @@
         <!-- Help Modal -->
         <div id="helpModal" class="modal">
             <div class="modal-content">
+                <div class="cyber-corner corner-tl"></div>
+                <div class="cyber-corner corner-tr"></div>
+                <div class="cyber-corner corner-bl"></div>
+                <div class="cyber-corner corner-br"></div>
                 <span class="close-modal" onclick="toggleHelp(false)">&times;</span>
-                <h3 class="heading-font mb-4" style="color: var(--primary);">Quick Help Guide</h3>
-                <div
-                    style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); max-height: 400px; overflow-y: auto; padding-right: 10px;">
-                    <p><strong>1. Farmer Login</strong><br>Registered farmers should enter their mobile number and
-                        password used during registration. New farmers must register first via the "Register here" link.
-                    </p>
+                <h3 class="heading-font mb-4" style="color: var(--primary); text-shadow: 0 0 10px var(--neon-green-glow); display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="help-circle" style="width: 20px; color: var(--neon-green);"></i> Quick Help Guide
+                </h3>
+                <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); max-height: 400px; overflow-y: auto; padding-right: 10px;">
+                    <p><strong style="color: var(--text-main);">1. Farmer Login</strong><br>Registered farmers should enter their mobile number and password used during registration. New farmers must register first via the "Register here" link.</p>
 
-                    <p class="mt-2"><strong>2. Admin Login</strong><br>Administrators use their assigned mobile
-                        credentials. The system automatically detects the role and redirects to the Strategic Command
-                        Center.</p>
+                    <p class="mt-2"><strong style="color: var(--text-main);">2. Admin Login</strong><br>Administrators use their assigned mobile credentials. The system automatically detects the role and redirects to the Strategic Command Center.</p>
 
-                    <p class="mt-2"><strong>3. First Steps After Login</strong></p>
-                    <ul style="padding-left: 1.2rem; margin-top: 5px;">
-                        <li><strong>Farmers:</strong> Navigate to "My Fields" to add a farm, then use "Scan Crop" for
-                            AI disease analysis.</li>
-                        <li><strong>Admins:</strong> Check the "Global Overview" for system-wide statistics and
-                            management logs.</li>
+                    <p class="mt-2"><strong style="color: var(--text-main);">3. First Steps After Login</strong></p>
+                    <ul style="padding-left: 0; margin-top: 5px;">
+                        <li>Farmers: Navigate to "My Fields" to add a farm, then use "Scan Crop" for AI disease analysis.</li>
+                        <li>Admins: Check the "Global Overview" for system-wide statistics and management logs.</li>
                     </ul>
 
-                    <p class="mt-4" style="font-size: 0.8rem; font-style: italic;">Need further assistance? Please
-                        contact your regional agricultural supervisor.</p>
+                    <p class="mt-4" style="font-size: 0.8rem; font-style: italic; color: var(--neon-teal);">Need further assistance? Please contact your regional agricultural supervisor.</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="../services/api.js"></script>
-        <script src="login.js"></script>
-        <script>
-            function toggleAbout(show) {
-                document.getElementById('aboutModal').style.display = show ? 'block' : 'none';
+    <script src="../services/api.js"></script>
+    <script src="login.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        function handleSocialLogin(provider) {
+            const errorMsg = document.getElementById('errorMsg');
+            if (errorMsg) {
+                errorMsg.textContent = `${provider} Secure Auth Handshake initiated. Action simulated for demo.`;
+                errorMsg.style.borderColor = 'rgba(6, 182, 212, 0.4)';
+                errorMsg.style.color = '#fff';
+                errorMsg.style.background = 'rgba(6, 182, 212, 0.1)';
+                errorMsg.style.boxShadow = '0 0 15px rgba(6, 182, 212, 0.15)';
+                errorMsg.classList.remove('hidden');
+                
+                // Hide after 4 seconds
+                setTimeout(() => {
+                    errorMsg.classList.add('hidden');
+                    // reset styles back to standard error red
+                    errorMsg.style.borderColor = '';
+                    errorMsg.style.color = '';
+                    errorMsg.style.background = '';
+                    errorMsg.style.boxShadow = '';
+                }, 4000);
             }
-            function toggleTerms(show) {
-                document.getElementById('termsModal').style.display = show ? 'block' : 'none';
-            }
-            function togglePrivacy(show) {
-                document.getElementById('privacyModal').style.display = show ? 'block' : 'none';
-            }
-            function toggleHelp(show) {
-                document.getElementById('helpModal').style.display = show ? 'block' : 'none';
-            }
-            // Close if click outside
-            window.onclick = function (event) {
-                let aboutModal = document.getElementById('aboutModal');
-                let termsModal = document.getElementById('termsModal');
-                let privacyModal = document.getElementById('privacyModal');
-                let helpModal = document.getElementById('helpModal');
-                if (event.target == aboutModal) toggleAbout(false);
-                if (event.target == termsModal) toggleTerms(false);
-                if (event.target == privacyModal) togglePrivacy(false);
-                if (event.target == helpModal) toggleHelp(false);
-            }
-        </script>
+        }
+
+        function toggleAbout(show) {
+            document.getElementById('aboutModal').style.display = show ? 'block' : 'none';
+        }
+        function toggleTerms(show) {
+            document.getElementById('termsModal').style.display = show ? 'block' : 'none';
+        }
+        function togglePrivacy(show) {
+            document.getElementById('privacyModal').style.display = show ? 'block' : 'none';
+        }
+        function toggleHelp(show) {
+            document.getElementById('helpModal').style.display = show ? 'block' : 'none';
+        }
+        // Close if click outside
+        window.onclick = function (event) {
+            let aboutModal = document.getElementById('aboutModal');
+            let termsModal = document.getElementById('termsModal');
+            let privacyModal = document.getElementById('privacyModal');
+            let helpModal = document.getElementById('helpModal');
+            if (event.target == aboutModal) toggleAbout(false);
+            if (event.target == termsModal) toggleTerms(false);
+            if (event.target == privacyModal) togglePrivacy(false);
+            if (event.target == helpModal) toggleHelp(false);
+        }
+    </script>
 </body>
 
 </html>

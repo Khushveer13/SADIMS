@@ -46,7 +46,7 @@ SADIMS utilizes a distributed microservices-style architecture to ensure perform
 2.  **Backend Service:**
     *   Powered by **Java Spring Boot 17+** / **Spring MVC**.
     *   Utilizes **Spring Data JPA** for data persistence and **Hibernate** ORM.
-    *   Integrates with a **MySQL** database for secure registration, authentication logging, farm tracking, disease records, and weather logging.
+    *   Integrates with a **PostgreSQL** database for secure registration, authentication logging, farm tracking, disease records, and weather logging.
 3.  **ML Service:**
     *   Built on a **Python Flask** server.
     *   Acts as an inference API serving mock deep-learning neural network logic mapped to a comprehensive agricultural knowledge base (`disease_solutions.json`).
@@ -60,14 +60,16 @@ SADIMS utilizes a distributed microservices-style architecture to ensure perform
 Before launching SADIMS, ensure you have the following installed on your machine:
 *   **Java JDK 17+** (Java 25 LTS is fully supported)
 *   **Python 3.10+** (with `pip` configured)
-*   **MySQL Server** (e.g., XAMPP, WAMP, or standalone MySQL service listening on port **3306**)
+*   **PostgreSQL Server** (listening on port **2178**)
 
 ### 🔌 Database Setup
-1.  Ensure your **MySQL Server** is running on port **3306**.
-2.  The application uses default root credentials:
-    *   **Username:** `root`
-    *   **Password:** *(empty)*
-3.  *Note: The Spring Boot backend is configured with `createDatabaseIfNotExist=true` and `ddl-auto=update`, so it will **automatically create** the `sadims_db` database and seed the default tables and admin credentials on the first run!*
+1.  Ensure your **PostgreSQL** is running (Port 2178) and 'sadims_db' is created.
+2.  Create a blank database named **`sadims_db`**.
+3.  The application uses local PostgreSQL credentials by default:
+    *   **Username:** `postgres`
+    *   **Password:** `Khushveer@2178`
+    *   *(Note: You can update these credentials in [application.properties](file:///c:/Users/Khushveer/AntiGravity/SADIMS/backend/src/main/resources/application.properties) if your database has a different configuration.)*
+4.  *Note: With `ddl-auto=update`, Spring Boot will automatically generate the required database tables and seed default admin credentials on the first run!*
 
 ### ⚡ Quick Start (Windows)
 We provide two pre-configured batch scripts at the root directory:
@@ -75,7 +77,7 @@ We provide two pre-configured batch scripts at the root directory:
 1.  **To Launch SADIMS:**
     Double-click `start_sadims.bat` or run it from a terminal. This script will:
     *   Verify Java and Python installations.
-    *   Check for active MySQL connections on port 3306.
+    *   Check for active PostgreSQL connections on port 2178.
     *   Launch the **Spring Boot Backend** (`mvnw.cmd spring-boot:run`) in a new console window.
     *   Launch the **Python ML Service** (`python app.py`) in a second console window.
     *   Wait 15 seconds, then open the browser interface (`frontend/index.html`) automatically.

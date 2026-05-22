@@ -15,13 +15,13 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
-echo [CHECK] Verifying MySQL (Port 3306) status...
-netstat -ano | findstr :3306 >nul 2>&1
+echo [CHECK] Verifying PostgreSQL (Port 2178) status...
+netstat -ano | findstr :2178 >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [WARNING] MySQL is NOT detected on Port 3306.
-    echo Please start your MySQL Server - XAMPP, WAMP, or MySQL Service - first.
+    echo [WARNING] PostgreSQL is NOT detected on Port 2178.
+    echo Please start your PostgreSQL Server and make sure database 'sadims_db' exists.
     echo.
-    echo Press any key once MySQL is started, or Ctrl+C to abort...
+    echo Press any key once PostgreSQL is started, or Ctrl+C to abort...
     pause >nul
 )
 
@@ -62,7 +62,7 @@ echo  - Backend: http://localhost:8080
 echo  - ML Service: http://localhost:5000
 echo.
 echo  If the windows above show errors, please check:
-echo  1. MySQL is running (Port 3306)
+echo  1. PostgreSQL is running (Port 2178) and 'sadims_db' exists
 echo  2. Java 17+ is installed
 echo ===================================================
 pause
