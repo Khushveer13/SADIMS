@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADIMS - My Profile</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2.5rem;
+            border: 4px solid var(--accent);
+            z-index: 1;
+        }
+
+        .profile-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Persistent Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="sprout"></i>
+                </div>
+                <h2>SADIMS</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>My Fields</span>
+                </a>
+                <a href="disease.html" class="nav-item">
+                    <i data-lucide="scan"></i>
+                    <span>Scan Crop</span>
+                </a>
+                <a href="weather.html" class="nav-item">
+                    <i data-lucide="cloud-sun"></i>
+                    <span>Weather</span>
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <i data-lucide="user"></i>
+                    <span>My Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="logout()" class="nav-item" style="color: #FF8585;">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
+                                style="width: 18px;"></i></a>
+                        <h2>Farmer Profile</h2>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="roleLabel" class="badge badge-success">Farmer</span>
+                </div>
+            </header>
+
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h2 id="dispName">Loading...</h2>
+                        <p id="dispMobile">---</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="sd-card">
+                        <h3 class="heading-font mb-4" style="font-size: 1.1rem; color: var(--primary);">Account Details
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" id="profName" class="sd-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mobile Number</label>
+                            <input type="text" id="profMobile" class="sd-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Member Since</label>
+                            <input type="text" id="profJoinDate" class="sd-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="sd-card">
+                        <h3 class="heading-font mb-4" style="font-size: 1.1rem; color: var(--primary);">Security</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Manage your
+                            access credentials below.</p>
+                        <div class="form-group">
+                            <label class="form-label">Role</label>
+                            <input type="text" id="profRole" class="sd-input" value="Verified Farmer" readonly>
+                        </div>
+                        <button id="changePassBtn" class="sd-btn"
+                            style="width: 100%; background: #f8fafc; border: 1.5px solid var(--border-color); color: var(--text-main);">
+                            <i data-lucide="lock" style="width: 16px;"></i> Change Password
+                        </button>
+
+                        <div id="passForm" class="hidden"
+                            style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                            <div class="form-group">
+                                <label class="form-label">Existing Password</label>
+                                <input type="password" id="oldPass" class="sd-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" id="newPass" class="sd-input">
+                            </div>
+                            <button onclick="updatePassword()" class="sd-btn sd-btn-primary" style="width: 100%;">
+                                Update Access Key
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../services/api.js"></script>
+    <script src="profile.js"></script>
+    <script>
+        lucide.createIcons();
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '../auth/login.html';
+        }
+    </script>
+</body>
+
+</html>

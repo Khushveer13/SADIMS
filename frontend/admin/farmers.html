@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADIMS - Farmer Registry</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Persistent Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <h2>SADIMS</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Global Overview</span>
+                </a>
+                <a href="farmers.html" class="nav-item active">
+                    <i data-lucide="users"></i>
+                    <span>Farmer Registry</span>
+                </a>
+                <a href="farms.html" class="nav-item">
+                    <i data-lucide="map"></i>
+                    <span>Farm Holdings</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>AI Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="logout()" class="nav-item" style="color: #FF8585;">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
+                                style="width: 18px;"></i></a>
+                        <h2>Farmer Registry</h2>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Admin Control Panel</span>
+                </div>
+            </header>
+
+            <div style="padding: 2rem;" class="p-4">
+                <div class="sd-card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 class="heading-font" style="font-size: 1.25rem;">Active Users</h3>
+                        <div class="badge badge-success" id="farmerCount">0 Farmers</div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Farmer Identity</th>
+                                    <th>Full Name</th>
+                                    <th>Mobile Connection</th>
+                                    <th>Field Portfolio</th>
+                                    <th>Platform Access</th>
+                                </tr>
+                            </thead>
+                            <tbody id="farmersList">
+                                <tr>
+                                    <td colspan="5" class="text-center p-4" style="color: var(--text-muted);">Syncing
+                                        with user database...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../services/api.js"></script>
+    <script src="farmers.js"></script>
+    <script>
+        lucide.createIcons();
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '../auth/login.html';
+        }
+    </script>
+</body>
+
+</html>

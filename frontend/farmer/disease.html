@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADIMS - Leaf Scan Lab</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 3rem;
+            text-align: center;
+            background: var(--bg-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.active {
+            border-color: var(--primary);
+            background: var(--accent-soft);
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+            display: none;
+            box-shadow: var(--shadow-md);
+        }
+
+        .pulse {
+            animation: pulse-bg 1.5s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0% {
+                background-color: var(--bg-white);
+            }
+
+            50% {
+                background-color: var(--accent-soft);
+            }
+
+            100% {
+                background-color: var(--bg-white);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="sprout"></i>
+                </div>
+                <h2>SADIMS</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>My Fields</span>
+                </a>
+                <a href="disease.html" class="nav-item active">
+                    <i data-lucide="scan"></i>
+                    <span>Scan Crop</span>
+                </a>
+                <a href="weather.html" class="nav-item">
+                    <i data-lucide="cloud-sun"></i>
+                    <span>Weather Logic</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i data-lucide="user"></i>
+                    <span>My Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="logout()" class="nav-item" style="color: #FF8585;">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="dashboard.html" style="color: var(--text-muted);"><i data-lucide="arrow-left"
+                                style="width: 18px;"></i></a>
+                        <h2>Leaf Scan Lab</h2>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">Farm ID: <span id="farmIdDisplay"
+                            style="font-weight: 600; color: var(--primary);">--</span></span>
+                </div>
+            </header>
+
+            <div style="padding: 2rem;" class="p-4">
+                <div class="dashboard-grid" style="padding: 0; margin-bottom: 2rem;">
+                    <div class="sd-card" style="grid-column: 1 / -1;">
+                        <h3 class="heading-font mb-4" style="font-size: 1.25rem;">AI Health Intelligence</h3>
+
+                        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                            <i data-lucide="cloud-upload"
+                                style="width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                            <h4 class="heading-font">Drop leaf image here</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Formats: JPG,
+                                PNG, WEBP</p>
+                            <img id="preview" class="preview-img" src="" alt="Preview">
+                        </div>
+
+                        <input type="file" id="fileInput" class="hidden" accept="image/*">
+
+                        <div class="mt-4"
+                            style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                            <label class="form-label" style="font-size: 0.7rem;">Mock Image Path</label>
+                            <input type="text" id="imagePath" class="sd-input" value="C:/images/sample.jpg"
+                                style="padding: 0.5rem;">
+                        </div>
+
+                        <div class="mt-4">
+                            <button onclick="checkDisease()" id="analyzeBtn" class="sd-btn sd-btn-primary"
+                                style="width: 100%; min-height: 50px;">
+                                <i data-lucide="sparkles" style="width: 18px;"></i> Analyze Sample
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="resultSection" class="sd-card hidden" style="grid-column: 1 / -1;">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <div id="statusBadge" class="badge hidden"
+                                style="display: inline-block; padding: 0.5rem 1rem;">--
+                            </div>
+                        </div>
+
+                        <h4 class="heading-font text-center" style="font-size: 1.5rem; color: var(--primary);"
+                            id="diseaseName">--</h4>
+
+                        <div class="mt-4 hidden"
+                            style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-sm);">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-size: 0.8rem; font-weight: 600;">AI Confidence</span>
+                                <span style="font-weight: 700; color: var(--primary);" id="confidence">--%</span>
+                            </div>
+                            <div
+                                style="width: 100%; height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden;">
+                                <div id="confidenceBar"
+                                    style="width: 0%; height: 100%; background: var(--accent); transition: width 1s ease;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5 class="form-label" style="color: var(--error); font-weight: 700;">Root Cause (Why)</h5>
+                            <p id="cause"
+                                style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1rem;">
+                                --</p>
+
+                            <h5 class="form-label" style="color: var(--primary); font-weight: 700;">Recommended Solution
+                            </h5>
+                            <p id="recommendation"
+                                style="font-size: 0.95rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem;">
+                                --</p>
+
+                            <!-- Treatment Solutions Section -->
+                            <div
+                                style="background: var(--bg-main); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                                <h5 class="heading-font"
+                                    style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary);">
+                                    <i data-lucide="flask-conical" style="width: 18px; vertical-align: middle;"></i>
+                                    Treatment Options
+                                </h5>
+
+                                <!-- Organic Solution -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <div
+                                            style="width: 32px; height: 32px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i data-lucide="leaf" style="width: 18px; color: white;"></i>
+                                        </div>
+                                        <h6 class="form-label" style="font-weight: 700; color: #10b981; margin: 0;">🌿
+                                            Organic Solutions</h6>
+                                    </div>
+                                    <p id="organicSolution"
+                                        style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); margin-left: 2.5rem; padding-left: 0.75rem; border-left: 3px solid #10b981;">
+                                        --
+                                    </p>
+                                </div>
+
+                                <!-- Inorganic Solution -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <div
+                                            style="width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i data-lucide="flask-round" style="width: 18px; color: white;"></i>
+                                        </div>
+                                        <h6 class="form-label" style="font-weight: 700; color: #3b82f6; margin: 0;">🧪
+                                            Inorganic (Chemical) Solutions</h6>
+                                    </div>
+                                    <p id="inorganicSolution"
+                                        style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); margin-left: 2.5rem; padding-left: 0.75rem; border-left: 3px solid #3b82f6;">
+                                        --
+                                    </p>
+                                </div>
+
+                                <!-- Prevention Tips -->
+                                <div>
+                                    <div
+                                        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <div
+                                            style="width: 32px; height: 32px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <i data-lucide="shield-check" style="width: 18px; color: white;"></i>
+                                        </div>
+                                        <h6 class="form-label" style="font-weight: 700; color: #f59e0b; margin: 0;">⚠️
+                                            Prevention Tips</h6>
+                                    </div>
+                                    <p id="prevention"
+                                        style="font-size: 0.9rem; line-height: 1.6; color: var(--text-main); margin-left: 2.5rem; padding-left: 0.75rem; border-left: 3px solid #f59e0b;">
+                                        --
+                                    </p>
+                                </div>
+
+                                <!-- Disclaimer Section -->
+                                <div
+                                    style="margin-top: 1.5rem; padding: 1rem; background: #EFF6FF; border-left: 4px solid #3B82F6; border-radius: var(--radius-sm);">
+                                    <div style="display: flex; align-items: flex-start; gap: 0.75rem;">
+                                        <i data-lucide="info"
+                                            style="width: 20px; height: 20px; color: #3B82F6; flex-shrink: 0; margin-top: 2px;"></i>
+                                        <div>
+                                            <h6
+                                                style="margin: 0 0 0.5rem 0; font-weight: 700; color: #1E40AF; font-size: 0.9rem;">
+                                                📋 Important</h6>
+                                            <p style="margin: 0; font-size: 0.85rem; line-height: 1.5; color: #1E3A8A;">
+                                                While our AI provides evidence-based suggestions, we recommend
+                                                consulting with certified agricultural professionals for your specific
+                                                situation.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4" style="display: flex; gap: 0.5rem;">
+                            <button class="sd-btn"
+                                style="flex: 1; font-size: 0.8rem; background: transparent; border: 1px solid var(--border-color);"
+                                onclick="resetLab()">
+                                <i data-lucide="refresh-cw" style="width: 14px;"></i> New Scan
+                            </button>
+                            <button class="sd-btn"
+                                style="flex: 1; font-size: 0.8rem; background: var(--bg-main); border: 1px solid var(--border-color);"
+                                onclick="toggleHistory()">
+                                <i data-lucide="history" style="width: 14px;"></i> View Records
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="historyHeader" class="section-header hidden"
+                    style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <h3 class="heading-font">Digital Lab Records</h3>
+                        <span class="badge" style="background: var(--bg-white); border: 1px solid var(--border-color);"
+                            id="historyCount">0 Records</span>
+                    </div>
+                    <button onclick="clearHistory()" class="sd-btn"
+                        style="color: var(--error); border-color: var(--error); background: transparent; font-size: 0.75rem; padding: 0.4rem 0.8rem;">
+                        <i data-lucide="trash-2" style="width: 14px;"></i> Clear All
+                    </button>
+                </div>
+
+                <div id="historyList" class="dashboard-grid hidden" style="padding: 1.5rem 0;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../services/api.js"></script>
+    <script src="disease.js"></script>
+    <script>
+        lucide.createIcons();
+        function logout() { localStorage.removeItem('user'); window.location.href = '../auth/login.html'; }
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const preview = document.getElementById('preview');
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('dropZone').querySelectorAll('i, h4, p').forEach(el => el.style.display = 'none');
+                }
+                reader.readAsDataURL(file);
+                document.getElementById('imagePath').value = "C:/uploads/" + file.name;
+            }
+        });
+        function resetLab() {
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('preview').style.display = 'none';
+            document.getElementById('dropZone').querySelectorAll('i, h4, p').forEach(el => el.style.display = 'block');
+            document.getElementById('fileInput').value = '';
+        }
+    </script>
+</body>
+
+</html>

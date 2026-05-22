@@ -1,0 +1,42 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Java / Maven
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/mvnw
+backend/mvnw.cmd
+*.class
+*.jar
+*.war
+*.ear
+
+# Python
+ml_service/__pycache__/
+ml_service/*.pyc
+ml_service/*.pyo
+ml_service/*.pyd
+ml_service/.pytest_cache/
+ml_service/venv/
+ml_service/.venv/
+ml_service/env/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*

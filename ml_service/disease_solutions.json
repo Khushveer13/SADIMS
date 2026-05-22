@@ -1,0 +1,227 @@
+{
+    "diseases": [
+        {
+            "diseaseName": "Leaf Rust",
+            "cause": "Caused by fungal spores that thrive in high humidity and poor air circulation.",
+            "recommendation": "Monitor drainage and reduce watering. Apply appropriate fungicides.",
+            "organicSolutions": [
+                {
+                    "name": "Neem Oil Spray",
+                    "dosage": "2-3 ml per liter of water",
+                    "frequency": "2-3 times weekly",
+                    "note": "Eco-friendly. Apply in early morning or evening to avoid leaf burn."
+                },
+                {
+                    "name": "Garlic-Based Organic Fungicide",
+                    "dosage": "50g crushed garlic per liter",
+                    "frequency": "Once every 5 days",
+                    "note": "Natural antifungal properties. Strain before spraying."
+                },
+                {
+                    "name": "Copper Soap Fungicide (Organic)",
+                    "dosage": "As per manufacturer instructions",
+                    "frequency": "Every 7-10 days",
+                    "note": "OMRI certified. Safe for organic farming."
+                }
+            ],
+            "chemicalSolutions": [
+                {
+                    "name": "Mancozeb 75% WP",
+                    "dosage": "2g per liter of water",
+                    "frequency": "Every 10-15 days",
+                    "note": "Wear protective gloves and mask. Do not spray during flowering."
+                },
+                {
+                    "name": "Propiconazole 25% EC",
+                    "dosage": "1ml per liter of water",
+                    "frequency": "Every 14 days",
+                    "note": "Systemic fungicide. Follow PHI (Pre-Harvest Interval) of 7 days."
+                },
+                {
+                    "name": "Bordeaux Mixture",
+                    "dosage": "5g per liter of water",
+                    "frequency": "Every 10 days",
+                    "note": "Traditional copper-based fungicide. Avoid during hot weather."
+                }
+            ],
+            "preventionTips": [
+                "Plant resistant varieties suitable for your climate",
+                "Ensure proper spacing (30-45cm) between plants for air circulation",
+                "Avoid overhead watering; use drip irrigation instead",
+                "Water early in the day to allow foliage to dry",
+                "Remove plant debris regularly and compost away from crops",
+                "Practice 2-3 year crop rotation",
+                "Apply balanced fertilization to strengthen plant immunity"
+            ],
+            "riskLevel": "High"
+        },
+        {
+            "diseaseName": "Powdery Mildew",
+            "cause": "Result of excess moisture on leaves combined with warm, stagnant air.",
+            "recommendation": "Prune infected leaves immediately. Increase air circulation.",
+            "organicSolutions": [
+                {
+                    "name": "Baking Soda Solution",
+                    "dosage": "1 tablespoon per gallon (4 liters) of water + few drops dish soap",
+                    "frequency": "Every 3-5 days",
+                    "note": "Safe and effective. Soap helps solution stick to leaves."
+                },
+                {
+                    "name": "Milk Spray",
+                    "dosage": "40% milk, 60% water mixture",
+                    "frequency": "Twice weekly",
+                    "note": "Natural antifungal. Use fresh milk for best results."
+                },
+                {
+                    "name": "Sulfur-Based Organic Fungicide",
+                    "dosage": "As per product label",
+                    "frequency": "Every 7 days",
+                    "note": "Do not apply when temperature exceeds 32°C (90°F)."
+                }
+            ],
+            "chemicalSolutions": [
+                {
+                    "name": "Myclobutanil 10% WP",
+                    "dosage": "0.5g per liter of water",
+                    "frequency": "Every 10-14 days",
+                    "note": "Systemic action. Wear protective equipment during application."
+                },
+                {
+                    "name": "Trifloxystrobin 25% + Tebuconazole 50% WG",
+                    "dosage": "0.4g per liter of water",
+                    "frequency": "Every 14 days",
+                    "note": "Broad-spectrum fungicide. PHI: 3 days."
+                },
+                {
+                    "name": "Potassium Bicarbonate",
+                    "dosage": "5g per liter of water",
+                    "frequency": "Weekly",
+                    "note": "Less toxic alternative. Can be used close to harvest."
+                }
+            ],
+            "preventionTips": [
+                "Choose resistant varieties for your region",
+                "Provide adequate spacing (40-50cm) for air flow",
+                "Avoid excessive nitrogen fertilization which promotes soft growth",
+                "Water at soil level, never on leaves",
+                "Prune to improve light penetration and air movement",
+                "Remove infected leaves immediately and destroy",
+                "Maintain soil pH between 6.0-7.0 for optimal plant health"
+            ],
+            "riskLevel": "Medium"
+        },
+        {
+            "diseaseName": "Blight",
+            "cause": "Bacterial or fungal infection often spread by wind and rain in early spring.",
+            "recommendation": "Remove affected plants immediately. Rotate crops next season.",
+            "organicSolutions": [
+                {
+                    "name": "Copper-Based Organic Bactericide",
+                    "dosage": "2-3g per liter of water",
+                    "frequency": "Every 5-7 days",
+                    "note": "OMRI listed. Apply preventively before disease appears."
+                },
+                {
+                    "name": "Bacillus subtilis Biofungicide",
+                    "dosage": "As per manufacturer (typically 2ml/L)",
+                    "frequency": "Every 7-10 days",
+                    "note": "Beneficial bacteria. Safe for beneficial insects."
+                },
+                {
+                    "name": "Compost Tea",
+                    "dosage": "Dilute 1:5 with water",
+                    "frequency": "Weekly as foliar spray",
+                    "note": "Boosts plant immunity. Use well-aerated compost tea only."
+                }
+            ],
+            "chemicalSolutions": [
+                {
+                    "name": "Copper Hydroxide 77% WP",
+                    "dosage": "3g per liter of water",
+                    "frequency": "Every 7-10 days",
+                    "note": "Protective fungicide. Wear mask and gloves during application."
+                },
+                {
+                    "name": "Streptomycin Sulfate (for bacterial blight)",
+                    "dosage": "200 ppm solution",
+                    "frequency": "Every 5 days during infection",
+                    "note": "Antibiotic. Use only when necessary. PHI: 14 days."
+                },
+                {
+                    "name": "Chlorothalonil 75% WP",
+                    "dosage": "2g per liter of water",
+                    "frequency": "Every 10 days",
+                    "note": "Broad-spectrum. Do not mix with other pesticides."
+                },
+                {
+                    "name": "Mancozeb 75% WP (Preventive)",
+                    "dosage": "2.5g per liter of water",
+                    "frequency": "Every 10-14 days",
+                    "note": "Start before disease appears. PHI: 7 days."
+                }
+            ],
+            "preventionTips": [
+                "Use only certified disease-free seeds and transplants",
+                "Practice 3-4 year crop rotation with non-host crops",
+                "Avoid working with plants when foliage is wet",
+                "Sanitize all tools with 10% bleach solution between plants",
+                "Remove and destroy volunteer plants immediately",
+                "Apply organic mulch to prevent soil splash onto leaves",
+                "Maintain proper plant nutrition with balanced fertilizers",
+                "Install drip irrigation to keep foliage dry",
+                "Remove crop residues immediately after harvest"
+            ],
+            "riskLevel": "Critical"
+        },
+        {
+            "diseaseName": "Healthy",
+            "cause": "Optimal soil nutrients and climate conditions maintained.",
+            "recommendation": "No action needed. Keep maintaining current care practices.",
+            "organicSolutions": [
+                {
+                    "name": "Compost Application",
+                    "dosage": "2-3 kg per square meter",
+                    "frequency": "Every 3-4 months",
+                    "note": "Maintains soil health and beneficial microbes."
+                },
+                {
+                    "name": "Organic Mulch",
+                    "dosage": "5-7 cm layer around plants",
+                    "frequency": "Replenish as needed",
+                    "note": "Conserves moisture and suppresses weeds naturally."
+                },
+                {
+                    "name": "Seaweed Extract",
+                    "dosage": "2ml per liter of water",
+                    "frequency": "Monthly foliar spray",
+                    "note": "Boosts plant immunity and stress tolerance."
+                }
+            ],
+            "chemicalSolutions": [
+                {
+                    "name": "Balanced NPK Fertilizer (19:19:19)",
+                    "dosage": "5g per liter of water",
+                    "frequency": "Every 15 days during growth",
+                    "note": "Adjust based on soil test results."
+                },
+                {
+                    "name": "Micronutrient Mix (Zn, Fe, Mn, B)",
+                    "dosage": "As per soil test recommendations",
+                    "frequency": "Once every 2 months",
+                    "note": "Apply only if deficiency is confirmed through testing."
+                }
+            ],
+            "preventionTips": [
+                "Continue regular monitoring for early disease detection",
+                "Maintain proper watering schedule based on crop needs",
+                "Keep balanced nutrition through soil testing every 6 months",
+                "Practice integrated pest management (IPM)",
+                "Maintain soil pH between 6.0-7.0 for most crops",
+                "Ensure good drainage to prevent waterlogging",
+                "Rotate crops annually to prevent soil depletion",
+                "Keep farm records for better decision making"
+            ],
+            "riskLevel": "None"
+        }
+    ]
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SADIMS - Smart Agro-Defence Intelligence & Monitoring System. AI-powered crop disease detection and smart farm management.">
+    <title>SADIMS | Smart Agro-Defence Intelligence</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --nav-height: 80px;
+        }
+
+        body {
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        /* Hero Image - Generated Asset */
+        .hero-section {
+            position: relative;
+            padding-top: calc(var(--nav-height) + 60px);
+            padding-bottom: 100px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hero-image-wrapper {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent-soft);
+            color: var(--primary);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            line-height: 1.1;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: #f0fdf4;
+            color: var(--accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Navigation */
+        .landing-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        @media screen and (max-width: 1024px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                margin: 0 auto 2.5rem;
+            }
+
+            .cta-group {
+                justify-content: center;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="landing-nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+                    <i data-lucide="leaf"></i>
+                </div>
+                SADIMS
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#impact" class="nav-link">Impact</a>
+                <a href="auth/login.html" class="nav-link" id="loginBtn">Login</a>
+                <a href="auth/register.html" class="sd-btn sd-btn-primary" id="getStartedBtn">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i data-lucide="sparkles" style="width: 16px;"></i>
+                    AI-Powered Agricultural Intelligence
+                </div>
+                <h1 class="hero-title">
+                    Smart Agro-Defence <br> <span>Intelligence</span> & Monitoring
+                </h1>
+                <p class="hero-subtitle">
+                    Protect your crops with state-of-the-art AI disease detection and precise farm management. Early
+                    detection leads to healthier fields and 30% higher yields.
+                </p>
+                <div class="cta-group">
+                    <button onclick="handleAction('register')" class="sd-btn sd-btn-primary"
+                        style="padding: 1rem 2rem; font-size: 1rem;">
+                        <i data-lucide="play-circle" style="width: 20px;"></i>
+                        Start Monitoring
+                    </button>
+                    <button onclick="handleAction('login')" class="sd-btn"
+                        style="padding: 1rem 2rem; font-size: 1rem; background: transparent; border: 1px solid var(--border-color);">
+                        Access Records
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="assets/img/hero-ai.png" alt="SADIMS AI Interface" class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>The Vanguard of Modern Farming</h2>
+            <p style="color: var(--text-muted);">Empowering farmers with data-driven insights and real-time defense
+                mechanisms.</p>
+        </div>
+        <div class="feature-grid">
+            <!-- Farm Management -->
+            <div class="sd-card feature-card">
+                <div class="feature-icon"><i data-lucide="layout-grid"></i></div>
+                <h3 class="heading-font mb-2">Farm Portfolio</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Effortlessly track multiple farms, soil metrics,
+                    and crop genotypes in one unified command center.</p>
+            </div>
+            <!-- AI Disease Detection -->
+            <div class="sd-card feature-card">
+                <div class="feature-icon" style="background: #fee2e2; color: #ef4444;"><i data-lucide="scan-face"></i>
+                </div>
+                <h3 class="heading-font mb-2">Neural Scan Lab</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Upload crop images for instantaneous AI-driven
+                    diagnosis of blights, rusts, and mildews.</p>
+            </div>
+            <!-- Weather Intelligence -->
+            <div class="sd-card feature-card">
+                <div class="feature-icon" style="background: #e0f2fe; color: #0ea5e9;"><i data-lucide="cloud-sun"></i>
+                </div>
+                <h3 class="heading-font mb-2">Climate Logic</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Real-time weather tracking integrated with crop
+                    physiological requirements for precision irrigation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section class="features-section" style="background: #f8fafc; border-top: 1px solid var(--border-color);">
+        <div class="section-header">
+            <h2>Three Steps to Smart Farming</h2>
+            <p style="color: var(--text-muted);">Launch your field monitoring in minutes. No complex hardware required.
+            </p>
+        </div>
+        <div class="feature-grid">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">01</div>
+                <h4 class="heading-font">Register Field</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Add your farm details, location, and soil
+                    profile to your digital dashboard.</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">02</div>
+                <h4 class="heading-font">Scan & Sync</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Snap a photo of any leaf. Our AI immediately
+                    analyzes health metrics.</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem;">03</div>
+                <h4 class="heading-font">Optimize Yield</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Receive localized advice and climate alerts to
+                    maximize your harvest.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stats -->
+    <section class="features-section" style="background: var(--primary); color: white;" id="impact">
+        <div class="feature-grid">
+            <div style="text-align: center;">
+                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">500+</h2>
+                <p>Protected Fields</p>
+            </div>
+            <div style="text-align: center;">
+                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">95%</h2>
+                <p>Prediction Accuracy</p>
+            </div>
+            <div style="text-align: center;">
+                <h2 style="font-family: 'Outfit'; font-size: 3rem; color: var(--accent);">30%</h2>
+                <p>Yield Increase</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 60px 0; border-top: 1px solid var(--border-color);">
+        <div class="nav-container">
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+                © 2025 SADIMS Platform. Empowering Global Agriculture.
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Privacy</a>
+                <a href="#" class="nav-link">Terms</a>
+                <a href="#" class="nav-link">API Docs</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function handleAction(type) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                window.location.href = user.role === 'ADMIN' ? 'admin/dashboard.html' : 'farmer/dashboard.html';
+            } else {
+                window.location.href = type === 'login' ? 'auth/login.html' : 'auth/register.html';
+            }
+        }
+
+        // Auth Check for Navigation
+        window.addEventListener('load', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('loginBtn').style.display = 'none';
+                const gsBtn = document.getElementById('getStartedBtn');
+                gsBtn.textContent = 'Dashboard';
+                gsBtn.onclick = (e) => {
+                    e.preventDefault();
+                    window.location.href = user.role === 'ADMIN' ? 'admin/dashboard.html' : 'farmer/dashboard.html';
+                };
+            }
+        });
+    </script>
+</body>
+
+</html>

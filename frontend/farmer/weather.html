@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADIMS - Weather Logic</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Persistent Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="sprout"></i>
+                </div>
+                <h2>SADIMS</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>My Fields</span>
+                </a>
+                <a href="disease.html" class="nav-item">
+                    <i data-lucide="scan"></i>
+                    <span>Scan Crop</span>
+                </a>
+                <a href="weather.html" class="nav-item active">
+                    <i data-lucide="cloud-sun"></i>
+                    <span>Weather</span>
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i data-lucide="user"></i>
+                    <span>My Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="logout()" class="nav-item" style="color: #FF8585;">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <a href="dashboard.html"
+                            style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Dashboard</a>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">/</span>
+                        <h2 style="font-size: 1.1rem;">Weather Intelligence</h2>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div id="liveTime"
+                        style="font-size: 0.8rem; color: var(--text-muted); padding-right: 15px; border-right: 1px solid var(--border-color);">
+                        --:--</div>
+                    <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">ACTIVE MONITORING</span>
+                </div>
+            </header>
+
+            <div style="padding: 2rem;" class="p-4">
+                <!-- Log Entry Card -->
+                <div class="sd-card mb-4">
+                    <h3 class="heading-font mb-4" style="font-size: 1.25rem;">Daily Climate Entry</h3>
+                    <form id="weatherForm"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Date of Reading</label>
+                            <input type="date" id="date" class="sd-input" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Temperature (°C)</label>
+                            <input type="number" step="0.1" id="temp" class="sd-input" placeholder="e.g. 28.5" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Humidity (%)</label>
+                            <input type="number" step="0.1" id="humid" class="sd-input" placeholder="e.g. 65" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label">Rainfall (mm)</label>
+                            <input type="number" step="0.1" id="rain" class="sd-input" placeholder="e.g. 12" required>
+                        </div>
+                        <div style="display: flex; align-items: flex-end;">
+                            <button type="submit" class="sd-btn sd-btn-primary" style="width: 100%;">Save
+                                Record</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- History Table Card -->
+                <div class="sd-card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 class="heading-font" style="font-size: 1.25rem;">Field Climate History</h3>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="badge" style="background: rgba(116, 198, 157, 0.15); color: #2D6A4F;"
+                                id="recordCount">0 Records</div>
+                            <button onclick="clearWeatherHistory()" class="sd-btn"
+                                style="color: var(--error); border-color: var(--error); background: transparent; font-size: 0.75rem; padding: 0.4rem 0.8rem;">
+                                <i data-lucide="trash-2" style="width: 14px;"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logged Date</th>
+                                    <th>Condition</th>
+                                    <th>Humidity</th>
+                                    <th>Precipitation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weatherTableBody">
+                                <tr>
+                                    <td colspan="4" class="text-center p-4" style="color: var(--text-muted);">Fetching
+                                        field logs...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../services/api.js"></script>
+    <script src="weather.js"></script>
+    <script>
+        lucide.createIcons();
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '../auth/login.html';
+        }
+
+        // Live Clock
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('liveTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }, 1000);
+    </script>
+</body>
+
+</html>
