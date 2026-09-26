@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SADIMS - Admin Strategic Console</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Persistent Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div
+                    style="width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <h2>SADIMS</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item active">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Global Overview</span>
+                </a>
+                <a href="farmers.html" class="nav-item">
+                    <i data-lucide="users"></i>
+                    <span>Farmer Registry</span>
+                </a>
+                <a href="farms.html" class="nav-item">
+                    <i data-lucide="map"></i>
+                    <span>Farm Holdings</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <i data-lucide="file-text"></i>
+                    <span>AI Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" onclick="logout()" class="nav-item" style="color: #FF8585;">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h2>Admin Strategic Console</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span style="font-size: 0.9rem; font-weight: 500; color: var(--text-main);">Auth: <span
+                            id="adminName">Administrator</span></span>
+                    <div
+                        style="width: 40px; height: 40px; border-radius: 50%; background: rgba(16, 185, 129, 0.08); display: flex; align-items: center; justify-content: center; color: var(--neon-green); border: 2px solid var(--neon-green); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);">
+                        <i data-lucide="user-cog"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-grid" style="padding: 2.5rem 2.5rem 1.5rem 2.5rem;">
+                <div class="sd-card stat-card">
+                    <div class="stat-icon"><i data-lucide="users"></i></div>
+                    <div class="stat-info">
+                        <div class="label">Registered Farmers</div>
+                        <div class="value" id="totalFarmers">0</div>
+                    </div>
+                </div>
+                <div class="sd-card stat-card">
+                    <div class="stat-icon" style="color: var(--neon-teal) !important;"><i data-lucide="scan"></i></div>
+                    <div class="stat-info">
+                        <div class="label">Total AI Scans</div>
+                        <div class="value" id="totalScans" style="color: var(--text-main);">0</div>
+                    </div>
+                </div>
+                <div class="sd-card stat-card">
+                    <div class="stat-icon" style="color: var(--neon-blue) !important;"><i data-lucide="cloud-rain"></i></div>
+                    <div class="stat-info">
+                        <div class="label">Weather Logs</div>
+                        <div class="value" id="totalLogs" style="color: var(--text-main);">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 0 2.5rem 2.5rem 2.5rem;" class="p-4">
+                <h3 class="heading-font mb-4" style="font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.25rem;">Command Centers</h3>
+                
+                <div class="dashboard-grid" style="padding: 0; margin-bottom: 2rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.75rem;">
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='farmers.html'">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green); filter: drop-shadow(0 0 6px var(--neon-green-glow));">
+                                <i data-lucide="user-check" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">User Management</h4>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Manage farmer accounts and field permissions.</p>
+                    </div>
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='farms.html'">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-blue); filter: drop-shadow(0 0 6px var(--neon-blue-glow));">
+                                <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">Farm Monitoring</h4>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time view of crop distributions and soil analytics.</p>
+                    </div>
+                    <div class="sd-card" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between;" onclick="window.location.href='reports.html'">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 36px; height: 36px; border-radius: 8px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-teal); filter: drop-shadow(0 0 6px var(--neon-teal-glow));">
+                                <i data-lucide="brain-circuit" style="width: 20px; height: 20px;"></i>
+                            </div>
+                            <h4 class="heading-font" style="font-size: 1.05rem; margin-bottom: 0;">AI Intelligence</h4>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Overview of disease predictions and ML accuracy trends.</p>
+                    </div>
+                </div>
+
+                <div class="sd-card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="width: 28px; height: 28px; border-radius: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--neon-green);">
+                                <i data-lucide="globe" style="width: 16px;"></i>
+                            </div>
+                            <h3 class="heading-font" style="font-size: 1.2rem; margin-bottom: 0;">Global Agricultural Monitor</h3>
+                        </div>
+                        <span class="badge badge-success"><i data-lucide="shield-check" style="width: 12px; margin-right: 4px;"></i> Live System</span>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Farm Identity</th>
+                                    <th>Registered Owner</th>
+                                    <th>Geographic Location</th>
+                                    <th>Current Crop</th>
+                                    <th>System Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allFarmsTable">
+                                <tr>
+                                    <td colspan="5" class="text-center p-4" style="color: var(--text-muted);">Syncing registry...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../services/api.js"></script>
+    <script src="dashboard.js"></script>
+    <script>
+        lucide.createIcons();
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '../auth/login.html';
+        }
+    </script>
+</body>
+
+</html>
